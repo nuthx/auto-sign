@@ -2,7 +2,7 @@ import time
 import datetime
 import random
 import threading
-from components import tsdm
+from components import tsdm, chiphell
 
 
 def tsdm_sign_timer():
@@ -33,3 +33,5 @@ if __name__ == '__main__':
 
     tsdm_work_thread = threading.Thread(target=tsdm_work_timer)
     tsdm_work_thread.start()
+
+    chiphell.chiphell_sign_timer()
