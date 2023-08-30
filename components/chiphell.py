@@ -33,8 +33,7 @@ def chiphell_sign():
         "content-type": "application/x-www-form-urlencoded"
     }
 
-    print("-------------------------")
-    print(f"[{logtime(0)}] {YELLOW}开始签到 - Chiphell{RESET}")
+    print(f"[{logtime(0)}] {YELLOW}Chiphell签到{RESET} - 开始")
 
     # 先访问一次首页
     requests.get(home_url, headers=headers)
@@ -46,18 +45,15 @@ def chiphell_sign():
 
     total_num = soup.select_one("div.bw0 table tr:nth-child(2) td:nth-child(2)").text
     cycle_num = soup.select_one("div.bw0 table tr:nth-child(2) td:nth-child(3)").text
-    print(f"[{logtime(0)}] 签到成功 - 累计签到{total_num}次，已循环{cycle_num}个周期")
+    print(f"[{logtime(0)}] {YELLOW}Chiphell签到 - 累计签到{total_num}次，已循环{cycle_num}个周期{RESET}")
 
 
 def chiphell_sign_timer():
     while True:
-        # 等待60秒
-        # time.sleep(60)
-
-        # 间隔23-24小时
-        random_time = random.randint(82800, 86400)
+        # 间隔24小时以上
+        random_time = random.randint(86400, 87000)
 
         # 开始签到
         chiphell_sign()
-        print(f"[{logtime(0)}] 全部完成 - 下次签到将于{logtime(random_time)}开始")
+        print(f"[{logtime(0)}] {YELLOW}Chiphell签到{RESET} - 下次将于{logtime(random_time)}开始")
         time.sleep(random_time)
