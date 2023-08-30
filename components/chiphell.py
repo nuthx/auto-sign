@@ -1,7 +1,6 @@
 import time
 import random
 import requests
-import configparser
 from bs4 import BeautifulSoup
 from components.function import *
 
@@ -10,23 +9,10 @@ home_url = "https://www.tsdm39.com/forum.php"
 credit_url = "https://www.chiphell.com/home.php?mod=spacecp&ac=credit&op=log&suboperation=creditrulelog"
 
 
-def get_chiphell_cookies():
-    config = configparser.ConfigParser()
-    config.read("config.ini")
-
-    auth_name = config.get("chiphell", "auth_name")
-    auth_value = config.get("chiphell", "auth_value")
-    salt_name = config.get("chiphell", "salt_name")
-    salt_value = config.get("chiphell", "salt_value")
-
-    chiphell_cookies = f"{auth_name}={auth_value}; {salt_name}={salt_value}"
-    return chiphell_cookies
-
-
 def chiphell_sign():
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
-        "cookie": get_chiphell_cookies(),
+        "cookie": get_cookies("chiphell"),
         "connection": "Keep-Alive",
         "x-requested-with": "XMLHttpRequest",
         "referer": home_url,

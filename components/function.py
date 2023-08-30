@@ -1,3 +1,4 @@
+import configparser
 from datetime import datetime, timedelta
 
 
@@ -22,3 +23,16 @@ def logtime(add_second):
         time = current + delta
         time = time.strftime("%Y-%m-%d %H:%M:%S")
     return time
+
+
+def get_cookies(website):
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+
+    auth_name = config.get(website, "auth_name")
+    auth_value = config.get(website, "auth_value")
+    salt_name = config.get(website, "salt_name")
+    salt_value = config.get(website, "salt_value")
+
+    cookies = f"{auth_name}={auth_value}; {salt_name}={salt_value}"
+    return cookies

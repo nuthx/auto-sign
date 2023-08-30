@@ -1,7 +1,6 @@
 import time
 import random
 import requests
-import configparser
 from components.function import *
 
 
@@ -11,24 +10,11 @@ sign_param = sign_url + "&operation=qiandao&infloat=1&sign_as=1&inajax=1"
 work_url = "https://www.tsdm39.com/plugin.php?id=np_cliworkdz:work"
 
 
-def get_tsdm_cookies():
-    config = configparser.ConfigParser()
-    config.read("config.ini")
-
-    auth_name = config.get("tsdm", "auth_name")
-    auth_value = config.get("tsdm", "auth_value")
-    salt_name = config.get("tsdm", "salt_name")
-    salt_value = config.get("tsdm", "salt_value")
-
-    tsdm_cookies = f"{auth_name}={auth_value}; {salt_name}={salt_value}"
-    return tsdm_cookies
-
-
 def tsdm_sign():
     # 必须要这个content-type, 否则没法接收
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
-        "cookie": get_tsdm_cookies(),
+        "cookie": get_cookies("tsdm"),
         "connection": "Keep-Alive",
         "x-requested-with": "XMLHttpRequest",
         "referer": home_url,
@@ -74,7 +60,7 @@ def tsdm_work():
     # 必须要这个content-type, 否则没法接收
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
-        "cookie": get_tsdm_cookies(),
+        "cookie": get_cookies("tsdm"),
         "connection": "Keep-Alive",
         "x-requested-with": "XMLHttpRequest",
         "referer": home_url,
