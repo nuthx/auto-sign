@@ -13,13 +13,12 @@ CYAN = "\033[0;36m"
 WHITE = "\033[0;37m"
 
 
-def logtime(add_second):
-    if add_second == 0:
-        time = datetime.now()
-        # time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+def logtime(added_second):
+    if added_second == 0:
+        time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     else:
         current = datetime.now()
-        delta = timedelta(seconds=add_second)
+        delta = timedelta(seconds=added_second)
         time = current + delta
         time = time.strftime("%Y-%m-%d %H:%M:%S")
     return time

@@ -5,33 +5,29 @@ from bs4 import BeautifulSoup
 from components.function import *
 
 
-home_url = "https://www.tsdm39.com/forum.php"
-credit_url = "https://www.chiphell.com/home.php?mod=spacecp&ac=credit&op=log&suboperation=creditrulelog"
+home_url = "https://www.chiphell.com/forum.php"
+credit_url = "https://www.chiphell.com/home.php?mod=spacecp&ac=credit&op=base"
 
 
 def chiphell_sign():
     headers = {
+        "content-type": "application/x-www-form-urlencoded",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
         "cookie": get_cookies("chiphell"),
-        "connection": "Keep-Alive",
-        "x-requested-with": "XMLHttpRequest",
-        "referer": home_url,
-        "content-type": "application/x-www-form-urlencoded"
+        "referer": home_url
     }
 
-    print(f"[{logtime(0)}] {YELLOW}Chiphell签到{RESET} - 开始")
-
-    # 先访问一次首页
+    # 访问首页签到
+    print(f"[{logtime(0)}] {YELLOW}Chiphell(1/4){RESET} - 签到开始")
     requests.get(home_url, headers=headers)
-    time.sleep(random.randint(1, 3))
+    time.sleep(random.randint(1, 2))
+    print(f"[{logtime(0)}] {YELLOW}Chiphell(2/4){RESET} - 完成签到尝试，结果未知")
 
-    # 执行签到并获取信息
+    # 获取邪恶指数
     response = requests.get(credit_url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
-
-    total_num = soup.select_one("div.bw0 table tr:nth-child(2) td:nth-child(2)").text
-    cycle_num = soup.select_one("div.bw0 table tr:nth-child(2) td:nth-child(3)").text
-    print(f"[{logtime(0)}] {YELLOW}Chiphell签到 - 累计签到{total_num}次，已循环{cycle_num}个周期{RESET}")
+    evil = soup.select_one(".creditl li").text.replace("邪恶指数:", "").strip()
+    print(f"[{logtime(0)}] {YELLOW}Chiphell(3/4){RESET} - 当前拥有{evil}邪恶指数")
 
 
 def chiphell_sign_timer():
@@ -41,5 +37,5 @@ def chiphell_sign_timer():
 
         # 开始签到
         chiphell_sign()
-        print(f"[{logtime(0)}] {YELLOW}Chiphell签到{RESET} - 下次将于{logtime(random_time)}开始")
+        print(f"[{logtime(0)}] {YELLOW}Chiphell(4/4){RESET} - 下次将于{logtime(random_time)}开始签到")
         time.sleep(random_time)
