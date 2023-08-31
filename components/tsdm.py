@@ -1,48 +1,47 @@
 import time
 import random
 import requests
+from bs4 import BeautifulSoup
 from components.function import *
 
 
 home_url = "https://www.tsdm39.com/forum.php"
 sign_url = "https://www.tsdm39.com/plugin.php?id=dsu_paulsign:sign"
-sign_param = sign_url + "&operation=qiandao&infloat=1&sign_as=1&inajax=1"
+sign_post = "https://www.tsdm39.com/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1&inajax=1"
 work_url = "https://www.tsdm39.com/plugin.php?id=np_cliworkdz:work"
+coin_url = "https://www.tsdm39.com/home.php?mod=spacecp&ac=credit&showcredit=1"
 
 
 def tsdm_sign():
     # 必须要这个content-type, 否则没法接收
     headers = {
+        "content-type": "application/x-www-form-urlencoded",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
         "cookie": get_cookies("tsdm"),
-        "connection": "Keep-Alive",
-        "x-requested-with": "XMLHttpRequest",
-        "referer": home_url,
-        "content-type": "application/x-www-form-urlencoded"
+        "referer": sign_url
     }
 
-    print(f"[{logtime(0)}] {MAGENTA}TSDM签到{RESET} - 开始")
-    s = requests.session()
-    response = s.get(sign_url, headers=headers).text
+    # 获取formhash
+    print(f"[{logtime(0)}] {MAGENTA}天使动漫(1/4){RESET} - 签到开始")
+    response = requests.post(sign_url, headers=headers)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    formhash = soup.select_one("#scbar_form input:nth-child(2)").get("value")
 
-    form_start = response.find("formhash=") + 9  # 此处9个字符
-    formhash = response[form_start:form_start + 8]  # formhash 8位
-
-    # formhash, 签到心情, 签到模式(不发言)
+    # 执行签到
     sign_data = "formhash=" + formhash + "&qdxq=wl&qdmode=3&todaysay=&fastreply=1"
+    response = requests.post(sign_post, data=sign_data, headers=headers)
 
-    # 开始签到
-    response = requests.post(sign_param, data=sign_data, headers=headers)
+    # 获取签到的返回信息
+    soup_xml = BeautifulSoup(response.text, "xml")
+    soup_html = BeautifulSoup(soup_xml.root.string, 'html.parser')
+    sign_result = soup_html.select_one(".c").text.replace(".", "").strip()
+    print(f"[{logtime(0)}] {MAGENTA}天使动漫(2/4){RESET} - " + sign_result)
 
-    # 返回结果
-    if "恭喜你签到成功" in response.text:
-        print(f"[{logtime(0)}] {MAGENTA}TSDM签到 - 成功{RESET}")
-    elif "今日已经签到" in response.text:
-        print(f"[{logtime(0)}] {MAGENTA}TSDM签到 - 今日已签到过{RESET}")
-    elif "已经过了签到时间段" in response.text or "签到时间还没有到" in response.text:
-        print(f"[{logtime(0)}] {MAGENTA}TSDM签到 - 目前不在签到时间段{RESET}")
-    else:
-        print(f"[{logtime(0)}] {MAGENTA}TSDM签到 - 未知原因失败{RESET}")
+    # 获取当前积分数
+    response = requests.post(coin_url, headers=headers)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    credit = soup.select_one(".creditl li").text.replace("天使币:", "").strip()
+    print(f"[{logtime(0)}] {MAGENTA}天使动漫(3/4){RESET} - 当前拥有{credit}天使币")
 
 
 def tsdm_sign_timer():
@@ -52,7 +51,7 @@ def tsdm_sign_timer():
 
         # 开始签到
         tsdm_sign()
-        print(f"[{logtime(0)}] {MAGENTA}TSDM签到{RESET} - 下次将于{logtime(random_time)}开始")
+        print(f"[{logtime(0)}] {MAGENTA}天使动漫(4/4){RESET} - 下次将于{logtime(random_time)}开始签到")
         time.sleep(random_time)
 
 
