@@ -1,5 +1,5 @@
 import threading
-from components import tsdm, chiphell, skyey
+from components import tsdm, chiphell, skyey, sayhuahuo
 
 
 if __name__ == '__main__':
@@ -11,6 +11,9 @@ if __name__ == '__main__':
     #
     # chiphell_sign_thread = threading.Thread(target=chiphell.chiphell_sign_timer)
     # chiphell_sign_thread.start()
+    #
+    # skyey_sign_thread = threading.Thread(target=skyey.skyey_sign_timer)
+    # skyey_sign_thread.start()
 
-    skyey_sign_thread = threading.Thread(target=skyey.skyey_sign_timer)
-    skyey_sign_thread.start()
+    sayhuahuo_sign_thread = threading.Thread(target=sayhuahuo.sayhuahuo_sign_timer)
+    sayhuahuo_sign_thread.start()
