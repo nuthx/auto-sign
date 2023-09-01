@@ -34,7 +34,7 @@ def sayhuahuo_sign():
     # 获取签到的返回信息
     soup_xml = BeautifulSoup(response.text, "xml")
     soup_html = BeautifulSoup(soup_xml.root.string, 'html.parser')
-    sign_result = soup_html.select_one(".c").text.strip()
+    sign_result = soup_html.select_one(".c").text.replace(".", "").strip()
     print(f"[{logtime(0)}] {MAGENTA}花火学园(2/4){RESET} - " + sign_result)
 
     # 获取当前积分数
@@ -52,5 +52,5 @@ def sayhuahuo_sign_timer():
 
         # 开始签到
         sayhuahuo_sign()
-        print(f"[{logtime(0)}] {MAGENTA}花火学园(4/4){RESET} - 下次将于{logtime(random_time)}开始")
+        print(f"[{logtime(0)}] {MAGENTA}花火学园(4/4){RESET} - 下次将于{logtime(random_time)}开始签到")
         time.sleep(random_time)
