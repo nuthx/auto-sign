@@ -11,7 +11,8 @@ if __name__ == '__main__':
         skyey.skyey_download_timer,
         sayhuahuo.sayhuahuo_sign_timer,
         # siksj.siksj_sign_timer,
-        skland.skland_apcheck_timer
+        skland.skland_sign_timer,
+        skland.skland_apcheck_timer,
     ]
 
     for timer in run_timer:
