@@ -1,6 +1,6 @@
 import time
 import requests
-import configparser
+from components.function import *
 
 
 def send_bark():
@@ -38,16 +38,18 @@ def skland_apcheck():
 
 
 def skland_apcheck_timer():
-    difference = skland_apcheck()
+    while True:
+        difference = skland_apcheck()
 
-    if difference > 0:
-        dif_hour = int(difference / 3600)
-        dif_minute = int(difference % 3600 / 60)
-        print(f"明日方舟 - 理智恢复中，{dif_hour}小时{dif_minute}分后再次刷新")
+        if difference > 0:
+            dif_hour = int(difference / 3600)
+            dif_minute = int(difference % 3600 / 60)
+            print(f"[{logtime(0)}] 明日方舟(1/1) - 理智恢复中，{dif_hour}小时{dif_minute}分后再次刷新")
 
-        sleep_time = int(difference) + 3
-        time.sleep(sleep_time)
-    else:
-        print(f"明日方舟 - 理智已完全恢复，10分钟后再次刷新")
-        send_bark()
-        time.sleep(600)
+            sleep_time = int(difference) + 3
+            time.sleep(sleep_time)
+        else:
+            print(f"[{logtime(0)}] 明日方舟(1/2) - 理智已完全恢复，10分钟后再次刷新")
+            print(f"[{logtime(0)}] 明日方舟(2/2) - 发送Bark提醒")
+            send_bark()
+            time.sleep(600)
