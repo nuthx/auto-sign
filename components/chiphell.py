@@ -38,4 +38,5 @@ def chiphell_sign_timer():
         # 开始签到
         chiphell_sign()
         print(f"[{logtime(0)}] {YELLOW}Chiphell(4/4){RESET} - 下次将于{logtime(random_time)}开始签到")
+        print(f"[{logtime(0)}] ———————————————————————————————————————————————")
         time.sleep(random_time)

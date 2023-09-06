@@ -76,4 +76,5 @@ def skyey_download_timer():
         # 开始签到
         skyey_download()
         print(f"[{logtime(0)}] {BLUE}天雪(4/4){RESET} - 下次将于{logtime(random_time)}再次下载")
+        print(f"[{logtime(0)}] ———————————————————————————————————————————————")
         time.sleep(random_time)

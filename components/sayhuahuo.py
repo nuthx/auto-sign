@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup
 from components.function import *
 
 
-home_url = "https://www.sayhuahuo.net/"
 coin_url = "https://www.sayhuahuo.net/home.php?mod=spacecp&ac=credit&showcredit=1"
 sign_url = "https://www.sayhuahuo.net/dsu_paulsign-sign.html"
 sign_post = "https://www.sayhuahuo.net/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1&inajax=1"
@@ -53,4 +52,5 @@ def sayhuahuo_sign_timer():
         # 开始签到
         sayhuahuo_sign()
         print(f"[{logtime(0)}] {MAGENTA}花火学园(4/4){RESET} - 下次将于{logtime(random_time)}开始签到")
+        print(f"[{logtime(0)}] ———————————————————————————————————————————————")
         time.sleep(random_time)

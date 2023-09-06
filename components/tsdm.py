@@ -52,6 +52,7 @@ def tsdm_sign_timer():
         # 开始签到
         tsdm_sign()
         print(f"[{logtime(0)}] {MAGENTA}天使动漫(4/4){RESET} - 下次将于{logtime(random_time)}开始签到")
+        print(f"[{logtime(0)}] ———————————————————————————————————————————————")
         time.sleep(random_time)
 
 
@@ -102,4 +103,5 @@ def tsdm_work_timer():
         # 开始打工
         tsdm_work()
         print(f"[{logtime(0)}] {CYAN}天使动漫(4/4){RESET} - 下次将于{logtime(random_time)}再次打工")
+        print(f"[{logtime(0)}] ———————————————————————————————————————————————")
         time.sleep(random_time)
