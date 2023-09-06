@@ -10,7 +10,7 @@ if __name__ == '__main__':
         chiphell.chiphell_sign_timer,
         skyey.skyey_download_timer,
         sayhuahuo.sayhuahuo_sign_timer,
-        # siksj.siksj_sign_timer,
+        siksj.siksj_sign_timer,
         skland.skland_sign_timer,
         skland.skland_apcheck_timer,
     ]
