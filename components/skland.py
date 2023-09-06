@@ -40,6 +40,8 @@ def skland_apcheck():
 
 
 def skland_apcheck_timer():
+    check = 0
+
     while True:
         difference = skland_apcheck()
 
@@ -47,14 +49,20 @@ def skland_apcheck_timer():
             dif_hour = int(difference / 3600)
             dif_minute = int(difference % 3600 / 60)
             print(f"[{logtime(0)}] 明日方舟(1/1) - 理智恢复中，{dif_hour}小时{dif_minute}分后再次刷新")
+            check = 0
 
             sleep_time = int(difference) + 3
             time.sleep(sleep_time)
         else:
             print(f"[{logtime(0)}] 明日方舟(1/2) - 理智已完全恢复，10分钟后再次刷新")
-            print(f"[{logtime(0)}] 明日方舟(2/2) - 发送了Bark提醒")
-            print(f"[{logtime(0)}] ———————————————————————————————————————————————")
-            send_bark()
+            if check == 0:
+                print(f"[{logtime(0)}] 明日方舟(2/2) - 发送了Bark提醒")
+                print(f"[{logtime(0)}] ———————————————————————————————————————————————")
+                send_bark()
+                check = 1
+            else:
+                print(f"[{logtime(0)}] 明日方舟(2/2) - 已提醒过，不再发送Bark提醒")
+                print(f"[{logtime(0)}] ———————————————————————————————————————————————")
             time.sleep(600)
 
 
