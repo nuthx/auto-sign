@@ -1,26 +1,22 @@
+import logging
 import configparser
 from datetime import datetime, timedelta
 
 
-RESET = "\033[0m"
-BLACK = "\033[0;30m"
-RED = "\033[0;31m"
-GREEN = "\033[0;32m"
-YELLOW = "\033[0;33m"
-BLUE = "\033[0;34m"
-MAGENTA = "\033[0;35m"
-CYAN = "\033[0;36m"
-WHITE = "\033[0;37m"
+def log(content):
+    now = datetime.now()
+    time = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    logging.basicConfig(filename=f"{now.year}-{now.month}.log", level=logging.INFO, format="%(message)s")
+    logging.info(f"[{time}] {content}")
+    print(f"[{time}] {content}")
 
 
-def logtime(added_second):
-    if added_second == 0:
-        time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    else:
-        current = datetime.now()
-        delta = timedelta(seconds=added_second)
-        time = current + delta
-        time = time.strftime("%Y-%m-%d %H:%M:%S")
+def next_time(added_second):
+    current = datetime.now()
+    delta = timedelta(seconds=added_second)
+    time = current + delta
+    time = time.strftime("%Y-%m-%d %H:%M:%S")
     return time
 
 

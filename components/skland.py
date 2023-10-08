@@ -28,7 +28,7 @@ def skland_sign():
     }
 
     # 签到
-    print(f"[{logtime(0)}] {BLUE}明日方舟(1/3){RESET} - 每日签到开始")
+    log("明日方舟(1/3) - 签到开始")
     response = requests.post(url, data=json.dumps(data), headers=headers)
 
     # 获取签到返回内容
@@ -38,9 +38,9 @@ def skland_sign():
     if message == "OK":
         award_name = result["data"]["awards"][0]["resource"]["name"]
         award_count = result["data"]["awards"][0]["count"]
-        print(f"[{logtime(0)}] {BLUE}明日方舟(2/3){RESET} - 获得了{award_name} x{award_count}")
+        log(f"明日方舟(2/3) - 获得了{award_name} x{award_count}")
     else:
-        print(f"[{logtime(0)}] {BLUE}明日方舟(2/3){RESET} - {message}")
+        log(f"明日方舟(2/3) - {message}")
 
 
 def skland_sign_timer():
@@ -50,6 +50,6 @@ def skland_sign_timer():
 
         # 开始签到
         skland_sign()
-        print(f"[{logtime(0)}] {BLUE}明日方舟(3/3){RESET} - 下次将于{logtime(random_time)}开始签到")
-        print(f"[{logtime(0)}] ———————————————————————————————————————————————")
+        log(f"明日方舟(3/3) - 下次将于{next_time(random_time)}开始签到")
+        log("———————————————————————————————————————————————")
         time.sleep(random_time)

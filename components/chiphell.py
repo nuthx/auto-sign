@@ -18,16 +18,16 @@ def chiphell_sign():
     }
 
     # 访问首页签到
-    print(f"[{logtime(0)}] {YELLOW}Chiphell(1/4){RESET} - 签到开始")
+    log("Chiphell(1/4) - 签到开始")
     requests.get(home_url, headers=headers)
     time.sleep(random.randint(1, 2))
-    print(f"[{logtime(0)}] {YELLOW}Chiphell(2/4){RESET} - 完成签到尝试，结果未知")
+    log("Chiphell(2/4) - 完成签到尝试，结果未知")
 
     # 获取邪恶指数
     response = requests.get(credit_url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     evil = soup.select_one(".creditl li").text.replace("邪恶指数:", "").strip()
-    print(f"[{logtime(0)}] {YELLOW}Chiphell(3/4){RESET} - 当前拥有{evil}邪恶指数")
+    log(f"Chiphell(3/4) - 当前拥有{evil}邪恶指数")
 
 
 def chiphell_sign_timer():
@@ -37,6 +37,6 @@ def chiphell_sign_timer():
 
         # 开始签到
         chiphell_sign()
-        print(f"[{logtime(0)}] {YELLOW}Chiphell(4/4){RESET} - 下次将于{logtime(random_time)}开始签到")
-        print(f"[{logtime(0)}] ———————————————————————————————————————————————")
+        log(f"Chiphell(4/4) - 下次将于{next_time(random_time)}开始签到")
+        log("———————————————————————————————————————————————")
         time.sleep(random_time)

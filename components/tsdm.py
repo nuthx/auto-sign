@@ -22,7 +22,7 @@ def tsdm_sign():
     }
 
     # 获取formhash
-    print(f"[{logtime(0)}] {MAGENTA}天使动漫(1/4){RESET} - 签到开始")
+    log("天使动漫(1/4) - 签到开始")
     response = requests.post(sign_url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     formhash = soup.select_one("#scbar_form input:nth-child(2)").get("value")
@@ -35,13 +35,13 @@ def tsdm_sign():
     soup_xml = BeautifulSoup(response.text, "xml")
     soup_html = BeautifulSoup(soup_xml.root.string, 'html.parser')
     sign_result = soup_html.select_one(".c").text.replace(".", "").strip()
-    print(f"[{logtime(0)}] {MAGENTA}天使动漫(2/4){RESET} - " + sign_result)
+    log(f"天使动漫(2/4) - {sign_result}")
 
     # 获取当前积分数
     response = requests.post(coin_url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     credit = soup.select_one(".creditl li").text.replace("天使币:", "").strip()
-    print(f"[{logtime(0)}] {MAGENTA}天使动漫(3/4){RESET} - 当前拥有{credit}天使币")
+    log(f"天使动漫(3/4) - 当前拥有{credit}天使币")
 
 
 def tsdm_sign_timer():
@@ -51,8 +51,8 @@ def tsdm_sign_timer():
 
         # 开始签到
         tsdm_sign()
-        print(f"[{logtime(0)}] {MAGENTA}天使动漫(4/4){RESET} - 下次将于{logtime(random_time)}开始签到")
-        print(f"[{logtime(0)}] ———————————————————————————————————————————————")
+        log(f"天使动漫(4/4) - 下次将于{next_time(random_time)}开始签到")
+        log("———————————————————————————————————————————————")
         time.sleep(random_time)
 
 
@@ -66,33 +66,33 @@ def tsdm_work():
     }
 
     # 打工之前必须访问过一次网页
-    print(f"[{logtime(0)}] {CYAN}天使动漫(1/4){RESET} - 打工开始")
+    log("天使动漫(1/4) - 打工开始")
     requests.get(work_url, headers=headers)
 
     # 检查是否已经打过工
     response = requests.post(work_url, data="act=clickad", headers=headers)
     if "必须与上一次间隔" in response.text:
-        print(f"[{logtime(0)}] {CYAN}天使动漫(2/4){RESET} - 该账户已经打工过")
-        print(f"[{logtime(0)}] {CYAN}天使动漫(3/4){RESET} - 停止打工")
+        log("天使动漫(2/4) - 该账户已经打工过")
+        log("天使动漫(3/4) - 停止打工")
         return
 
     # 尝试8次打工
     for i in range(8):
         requests.post(work_url, data="act=clickad", headers=headers)
-        print(f"[{logtime(0)}] {CYAN}天使动漫(2/4){RESET} - 打工第" + str(i+1) + "次")
+        log(f"天使动漫(2/4) - 打工第{str(i+1)}次")
 
     # 获取打工的返回信息
     response = requests.post(work_url, data="act=getcre", headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     sign_result = soup.select_one("#messagetext").text
     sign_result = sign_result.replace("如果你的浏览器没有自动跳转，请点击此链接", "").strip()
-    print(f"[{logtime(0)}] {CYAN}天使动漫(2/4){RESET} - " + sign_result)
+    log(f"天使动漫(2/4) - {sign_result}")
 
     # 获取当前积分数
     response = requests.post(coin_url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     credit = soup.select_one(".creditl li").text.replace("天使币:", "").strip()
-    print(f"[{logtime(0)}] {CYAN}天使动漫(3/4){RESET} - 当前拥有{credit}天使币")
+    log(f"天使动漫(3/4) - 当前拥有{credit}天使币")
 
 
 def tsdm_work_timer():
@@ -102,6 +102,6 @@ def tsdm_work_timer():
 
         # 开始打工
         tsdm_work()
-        print(f"[{logtime(0)}] {CYAN}天使动漫(4/4){RESET} - 下次将于{logtime(random_time)}再次打工")
-        print(f"[{logtime(0)}] ———————————————————————————————————————————————")
+        log(f"天使动漫(4/4) - 下次将于{next_time(random_time)}开始打工")
+        log("———————————————————————————————————————————————")
         time.sleep(random_time)

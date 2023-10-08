@@ -35,7 +35,7 @@ def skyey_download():
     }
 
     # 打开字幕区
-    print(f"[{logtime(0)}] {BLUE}天雪(1/4){RESET} - 字幕下载开始")
+    log("天雪(1/4) - 字幕下载开始")
     response = requests.get(subtitle_url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -57,7 +57,7 @@ def skyey_download():
 
         # 模拟下载
         requests.get(download_link_full, headers=headers_zip)
-        print(f"[{logtime(0)}] {BLUE}天雪(2/4){RESET} - 模拟下载第{i}个字幕")
+        log(f"天雪(2/4) - 模拟下载第{i}个字幕")
         time.sleep(2)
         i += 1
 
@@ -65,7 +65,7 @@ def skyey_download():
     response = requests.post(coin_url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     credit = soup.select_one(".creditl .cl").text[:10].replace("金币:", "").strip()
-    print(f"[{logtime(0)}] {BLUE}天雪(3/4){RESET} - 当前拥有{credit}金币")
+    log(f"天雪(3/4) - 当前拥有{credit}金币")
 
 
 def skyey_download_timer():
@@ -75,6 +75,6 @@ def skyey_download_timer():
 
         # 开始签到
         skyey_download()
-        print(f"[{logtime(0)}] {BLUE}天雪(4/4){RESET} - 下次将于{logtime(random_time)}再次下载")
-        print(f"[{logtime(0)}] ———————————————————————————————————————————————")
+        log(f"天雪(4/4) - 下次将于{next_time(random_time)}再次下载")
+        log("———————————————————————————————————————————————")
         time.sleep(random_time)

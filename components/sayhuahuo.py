@@ -20,7 +20,7 @@ def sayhuahuo_sign():
     }
 
     # 获取formhash
-    print(f"[{logtime(0)}] {MAGENTA}花火学园(1/4){RESET} - 签到开始")
+    log("花火学园(1/4) - 签到开始")
     response = requests.post(sign_url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     formhash = soup.select_one("#scbar_form input:nth-child(2)").get("value")
@@ -34,14 +34,14 @@ def sayhuahuo_sign():
     soup_xml = BeautifulSoup(response.text, "xml")
     soup_html = BeautifulSoup(soup_xml.root.string, 'html.parser')
     sign_result = soup_html.select_one(".c").text.replace(".", "").strip()
-    print(f"[{logtime(0)}] {MAGENTA}花火学园(2/4){RESET} - " + sign_result)
+    log(f"花火学园(2/4) - {sign_result}")
 
     # 获取当前积分数
     response = requests.post(coin_url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     exp = soup.select_one(".creditl li:nth-child(2)").text.replace("经验:", "").strip()
     credit = soup.select_one(".creditl li").text.replace("学分:", "").strip()
-    print(f"[{logtime(0)}] {MAGENTA}花火学园(3/4){RESET} - 当前拥有{credit}学分，{exp}经验")
+    log(f"花火学园(3/4) - 当前拥有{credit}学分，{exp}经验")
 
 
 def sayhuahuo_sign_timer():
@@ -51,6 +51,6 @@ def sayhuahuo_sign_timer():
 
         # 开始签到
         sayhuahuo_sign()
-        print(f"[{logtime(0)}] {MAGENTA}花火学园(4/4){RESET} - 下次将于{logtime(random_time)}开始签到")
-        print(f"[{logtime(0)}] ———————————————————————————————————————————————")
+        log(f"花火学园(4/4) - 下次将于{next_time(random_time)}开始签到")
+        log("———————————————————————————————————————————————")
         time.sleep(random_time)

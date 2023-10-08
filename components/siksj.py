@@ -20,7 +20,7 @@ def siksj_sign():
     }
 
     # 获取formhash
-    print(f"[{logtime(0)}] {YELLOW}4K世界(1/4){RESET} - 签到开始")
+    log("4K世界(1/4) - 签到开始")
     response = requests.post(sign_url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     formhash = soup.select_one("#scbar_form input:nth-child(2)").get("value")
@@ -32,16 +32,16 @@ def siksj_sign():
     # 获取签到的返回信息
     result = ET.fromstring(response.text).text
     if result is None:
-        print(f"[{logtime(0)}] {YELLOW}4K世界(2/4){RESET} - 签到完成")
+        log("4K世界(2/4) - 签到完成")
     else:
-        print(f"[{logtime(0)}] {YELLOW}4K世界(2/4){RESET} - {result}，请勿重复进行")
+        log(f"4K世界(2/4) - {result}，请勿重复进行")
 
     # 获取当前积分数
     response = requests.post(coin_url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     credit = soup.select_one(".creditl li").text
     credit = credit.replace("K币:", "").replace("个", "").replace("立即充值»", "").strip()
-    print(f"[{logtime(0)}] {YELLOW}4K世界(3/4){RESET} - 当前拥有{credit}个K币")
+    log(f"4K世界(3/4) - 当前拥有{credit}个K币")
 
 
 def siksj_sign_timer():
@@ -51,6 +51,6 @@ def siksj_sign_timer():
 
         # 开始签到
         siksj_sign()
-        print(f"[{logtime(0)}] {YELLOW}4K世界(4/4){RESET} - 下次将于{logtime(random_time)}开始签到")
-        print(f"[{logtime(0)}] ———————————————————————————————————————————————")
+        log(f"4K世界(4/4) - 下次将于{next_time(random_time)}开始签到")
+        log("———————————————————————————————————————————————")
         time.sleep(random_time)
