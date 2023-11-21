@@ -6,7 +6,7 @@ from components import tsdm, chiphell, skyey, sayhuahuo, siksj, skland, vcb
 
 if __name__ == '__main__':
     log("———————————————————————————————————————————————")
-    log("自动签到启动 20231019")
+    log("自动签到启动 20231121")
     log("———————————————————————————————————————————————")
 
     run_timer = [
@@ -21,12 +21,6 @@ if __name__ == '__main__':
     ]
 
     for timer in run_timer:
-        if timer == skland.skland_sign_timer:
-            for i in ["1", "2"]:
-                thread = threading.Thread(target=timer, args=(i,))
-                thread.start()
-                time.sleep(3)
-        else:
             thread = threading.Thread(target=timer)
             thread.start()
             time.sleep(12)
