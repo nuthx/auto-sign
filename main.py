@@ -13,14 +13,23 @@ if __name__ == '__main__':
         skland.skland_sign_timer,
         tsdm.tsdm_sign_timer,
         tsdm.tsdm_work_timer,
+        vcb.vcb_sign_timer,
         chiphell.chiphell_sign_timer,
-        sayhuahuo.sayhuahuo_sign_timer,
         # siksj.siksj_sign_timer,
         skyey.skyey_download_timer,
-        vcb.vcb_sign_timer,
+        sayhuahuo.sayhuahuo_sign_timer,
     ]
 
     for timer in run_timer:
+        if timer == tsdm.tsdm_work_timer:
             thread = threading.Thread(target=timer)
             thread.start()
             time.sleep(12)
+        elif timer == skyey.skyey_download_timer:
+            thread = threading.Thread(target=timer)
+            thread.start()
+            time.sleep(15)
+        else:
+            thread = threading.Thread(target=timer)
+            thread.start()
+            time.sleep(5)
