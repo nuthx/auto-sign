@@ -79,7 +79,8 @@ def tsdm_work():
     # 尝试8次打工
     for i in range(8):
         requests.post(work_url, data="act=clickad", headers=headers)
-        log(f"天使动漫(2/4) - 打工第{str(i+1)}次")
+        if i == 7:
+            log("天使动漫(2/4) - 完成8次打工")
 
     # 获取打工的返回信息
     response = requests.post(work_url, data="act=getcre", headers=headers)
