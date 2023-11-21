@@ -15,7 +15,7 @@ if __name__ == '__main__':
         tsdm.tsdm_work_timer,
         chiphell.chiphell_sign_timer,
         sayhuahuo.sayhuahuo_sign_timer,
-        siksj.siksj_sign_timer,
+        # siksj.siksj_sign_timer,
         skyey.skyey_download_timer,
         vcb.vcb_sign_timer,
     ]
