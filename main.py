@@ -32,4 +32,4 @@ if __name__ == '__main__':
         else:
             thread = threading.Thread(target=timer)
             thread.start()
-            time.sleep(5)
+            time.sleep(6)
