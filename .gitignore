@@ -1,6 +1,6 @@
 config.ini
 data
-src/old
+test
 
 # PyCharm
 .idea

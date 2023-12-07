@@ -1,4 +1,4 @@
-from src.work import forum_visit, forum_work, forum_sign, forum_sign_plus, forum_download
+from src.work import forum_visit, forum_work, forum_sign, forum_sign_plus, forum_download, skland
 from src.function import *
 
 
@@ -11,6 +11,7 @@ def chiphell_visit():
         })
     except Exception as e:
         log(e)
+        log("———————————————————————————————————————")
 
 
 def vcb_visit():
@@ -22,6 +23,7 @@ def vcb_visit():
         })
     except Exception as e:
         log(e)
+        log("———————————————————————————————————————")
 
 
 def tsdm_work():
@@ -35,6 +37,7 @@ def tsdm_work():
         })
     except Exception as e:
         log(e)
+        log("———————————————————————————————————————")
 
 
 def tsdm_sign():
@@ -48,6 +51,7 @@ def tsdm_sign():
         })
     except Exception as e:
         log(e)
+        log("———————————————————————————————————————")
 
 
 def sayhuahuo_sign():
@@ -61,18 +65,21 @@ def sayhuahuo_sign():
         })
     except Exception as e:
         log(e)
+        log("———————————————————————————————————————")
 
 
 def sksj_sign():
-
-    forum_sign_plus.do({
-        "name": "sksj",
-        "name_cn": "4K世界",
-        "sign_url": "https://www.4ksj.com/qiandao/",
-        "sign_post": "https://www.4ksj.com/qiandao/?mod=sign&operation=qiandao&format=empty&inajax=1&ajaxtarget=",
-        "coin_url": "https://www.4ksj.com/home.php?mod=spacecp&ac=credit"
-    })
-
+    try:
+        forum_sign_plus.do({
+            "name": "sksj",
+            "name_cn": "4K世界",
+            "sign_url": "https://www.4ksj.com/qiandao/",
+            "sign_post": "https://www.4ksj.com/qiandao/?mod=sign&operation=qiandao&format=empty&inajax=1&ajaxtarget=",
+            "coin_url": "https://www.4ksj.com/home.php?mod=spacecp&ac=credit"
+        })
+    except Exception as e:
+        log(e)
+        log("———————————————————————————————————————")
 
 
 def skyey_download():
@@ -86,3 +93,12 @@ def skyey_download():
         })
     except Exception as e:
         log(e)
+        log("———————————————————————————————————————")
+
+
+def skland_sign():
+    try:
+        skland.sign()
+    except Exception as e:
+        log(e)
+        log("———————————————————————————————————————")
