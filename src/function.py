@@ -47,3 +47,37 @@ def init_csv(filename):
             csv.writer(file)
 
     return filepath
+
+
+def write_csv(name, name_1, value_1, name_2, value_2):
+    # 初始化csv
+    csv_path = init_csv(name.lower())
+
+    # 读取csv
+    with open(csv_path, 'r', newline='') as file:
+        data = list(csv.reader(file))
+
+    # 是否存在表头
+    if not data:
+        if value_2 == 0:
+            data.append(["时间", name_1])
+        else:
+            data.append(["时间", name_1, name_2])
+
+    # 创建数据
+    today = datetime.now().strftime("%Y-%m-%d")
+    if data[-1][0] != today:
+        if value_2 == 0:
+            data.append([today, value_1])
+        else:
+            data.append([today, value_1, value_2])
+
+    # 若已有今日数据，则更新
+    else:
+        data[-1][1] = value_1
+        if value_2 != 0:
+            data[-1][2] = value_2
+
+    # 写入csv
+    with open(csv_path, 'w', newline='') as file:
+        csv.writer(file).writerows(data)
