@@ -1,3 +1,5 @@
+import os
+import csv
 import logging
 import configparser
 from datetime import datetime, timedelta
@@ -31,3 +33,17 @@ def get_cookies(website):
 
     cookies = f"{auth_name}={auth_value}; {salt_name}={salt_value}"
     return cookies
+
+
+def init_csv(filename):
+    # 创建文件夹
+    if not os.path.exists("data"):
+        os.mkdir("data")
+
+    # 创建空文件
+    filepath = os.path.join("data", filename + ".csv")
+    if not os.path.exists(filepath):
+        with open(filepath, 'w', newline='') as file:
+            csv.writer(file)
+
+    return filepath

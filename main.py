@@ -1,35 +1,24 @@
 import time
-import threading
-from components.function import *
-from components import tsdm, chiphell, skyey, sayhuahuo, siksj, skland, vcb
+import schedule
+from src import task
+from src.function import *
+
+
+def set_time(j_time, j_name):
+    scheduler = schedule.Scheduler()
+    scheduler.every().day.at(j_time).do(j_name)
+    return scheduler
 
 
 if __name__ == '__main__':
-    log("———————————————————————————————————————————————")
-    log("自动签到启动 20231121")
-    log("———————————————————————————————————————————————")
+    log("———————————————————————————————————————")
+    log("自动签到启动 20231205")
+    log("———————————————————————————————————————")
 
-    run_timer = [
-        skland.skland_sign_timer,
-        tsdm.tsdm_sign_timer,
-        tsdm.tsdm_work_timer,
-        vcb.vcb_sign_timer,
-        chiphell.chiphell_sign_timer,
-        # siksj.siksj_sign_timer,
-        skyey.skyey_download_timer,
-        sayhuahuo.sayhuahuo_sign_timer,
-    ]
+    chiphell = set_time("10:58:00", task.chiphell_visit)
+    vcb = set_time("10:58:00", task.vcb_visit)
 
-    for timer in run_timer:
-        if timer == tsdm.tsdm_work_timer:
-            thread = threading.Thread(target=timer)
-            thread.start()
-            time.sleep(12)
-        elif timer == skyey.skyey_download_timer:
-            thread = threading.Thread(target=timer)
-            thread.start()
-            time.sleep(15)
-        else:
-            thread = threading.Thread(target=timer)
-            thread.start()
-            time.sleep(6)
+    while True:
+        chiphell.run_pending()
+        vcb.run_pending()
+        time.sleep(1)
