@@ -5,19 +5,19 @@ import pandas as pd
 import altair as alt
 
 
-def draw_chart(y_name, last_data, last_data_2, csv_file):
+def draw_chart(data, num, csv_file):
     # 计算每日差值
-    diff = int(last_data) - int(last_data_2)
+    diff = int(data[-1][num]) - int(data[-2][num])
     if diff == 0:
-        domain_more = int(last_data) + 30
-        domain_less = int(last_data) - 30
+        domain_more = int(data[-1][num]) + 30
+        domain_less = int(data[-1][num]) - 30
     else:
-        domain_more = int(last_data) + diff * 10
-        domain_less = int(last_data) - diff * 10
+        domain_more = int(data[-1][num]) + diff * 10
+        domain_less = int(data[-1][num]) - diff * 10
 
     chart = alt.Chart(csv_file).mark_line().configure_axisX(labelAngle=0).encode(
         x="时间",
-        y=alt.Y(y_name, scale=alt.Scale(domain=[domain_less, domain_more])))
+        y=alt.Y(data[0][num], scale=alt.Scale(domain=[domain_less, domain_more])))
     st.altair_chart(chart, use_container_width=True)
 
 
@@ -55,17 +55,17 @@ def draw_task(name, csv_name):
         tab1, tab2 = st.tabs([data[0][1], "原始数据"])
         with tab1:
             draw_metric(data, 1)
-            draw_chart(data[0][1], data[-1][1], data[-2][1], csv_file)
+            draw_chart(data, 1, csv_file)
         with tab2:
             st.dataframe(csv_file, use_container_width=True)
     else:
         tab1, tab2, tab3 = st.tabs([data[0][1], data[0][2], "原始数据"])
         with tab1:
             draw_metric(data, 1)
-            draw_chart(data[0][1], data[-1][1], data[-2][1], csv_file)
+            draw_chart(data, 1, csv_file)
         with tab2:
             draw_metric(data, 2)
-            draw_chart(data[0][2], data[-1][2], data[-2][2], csv_file)
+            draw_chart(data, 2, csv_file)
         with tab3:
             st.dataframe(csv_file, use_container_width=True)
 
