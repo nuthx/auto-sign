@@ -39,7 +39,7 @@ def do(forum):
 
     # 获取字幕区帖子列表
     log(f"{name_cn}(2/4) - 获取帖子列表")
-    result_posts = soup.select("tbody[id^='normalthread_'] .new a:nth-child(3)")
+    result_posts = soup.select("tbody[id^='normalthread_'] .s")
     posts = []
     for post in result_posts:
         href = post.get("href")

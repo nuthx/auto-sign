@@ -88,7 +88,7 @@ def skyey_download():
             "name": "skyey",
             "name_cn": "天雪",
             "home_url": "https://www.skyey2.com/",
-            "subtitle_url": "https://www.skyey2.com/forum.php?mod=forumdisplay&fid=75",
+            "subtitle_url": "https://www.skyey2.com/forum.php?mod=forumdisplay&fid=16",
             "coin_url": "https://www.skyey2.com/home.php?mod=spacecp&ac=credit&showcredit=1"
         })
     except Exception as e:
