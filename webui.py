@@ -21,6 +21,20 @@ def draw_chart(y_name, last_data, last_data_2, csv_file):
     st.altair_chart(chart, use_container_width=True)
 
 
+def draw_metric(data, num):
+    with st.container(border=True):
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.metric("本日新增", str(int(data[-1][num]) - int(data[-2][num])))
+        with col2:
+            st.metric("本周新增", str(int(data[-1][num]) - int(data[-2][num])))  # 暂不可用
+        with col3:
+            st.metric("每日均增", str(int(data[-1][num]) - int(data[-2][num])))  # 暂不可用
+        with col4:
+            st.metric("总计", data[-1][num])
+    st.write("")
+
+
 def draw_task(name, csv_name):
     st.subheader(name)
 
@@ -40,14 +54,17 @@ def draw_task(name, csv_name):
     if len(data[0]) == 2:
         tab1, tab2 = st.tabs([data[0][1], "原始数据"])
         with tab1:
+            draw_metric(data, 1)
             draw_chart(data[0][1], data[-1][1], data[-2][1], csv_file)
         with tab2:
             st.dataframe(csv_file, use_container_width=True)
     else:
         tab1, tab2, tab3 = st.tabs([data[0][1], data[0][2], "原始数据"])
         with tab1:
+            draw_metric(data, 1)
             draw_chart(data[0][1], data[-1][1], data[-2][1], csv_file)
         with tab2:
+            draw_metric(data, 2)
             draw_chart(data[0][2], data[-1][2], data[-2][2], csv_file)
         with tab3:
             st.dataframe(csv_file, use_container_width=True)
