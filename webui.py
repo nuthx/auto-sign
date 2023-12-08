@@ -16,8 +16,8 @@ def draw_chart(data, num, csv_file):
         domain_less = int(data[-1][num]) - diff * 10
 
     chart = alt.Chart(csv_file).mark_line().configure_axisX(labelAngle=0).encode(
-        x="时间",
-        y=alt.Y(data[0][num], scale=alt.Scale(domain=[domain_less, domain_more])))
+        x=alt.X("时间", axis=alt.Axis(title=None)),
+        y=alt.Y(data[0][num], scale=alt.Scale(domain=[domain_less, domain_more]), axis=alt.Axis(title=None)))
     st.altair_chart(chart, use_container_width=True)
 
 
@@ -32,7 +32,7 @@ def draw_metric(data, num):
             st.metric("每日均增", str(int(data[-1][num]) - int(data[-2][num])))  # 暂不可用
         with col4:
             st.metric("总计", data[-1][num])
-    st.write("")
+
 
 
 def draw_task(name, csv_name):
@@ -73,41 +73,20 @@ def draw_task(name, csv_name):
 if __name__ == '__main__':
     st.set_page_config(page_title="Auto-sign Dashboard", layout="wide")
 
-    # visit
-
-    st.header("forum-visit", divider="gray")
-    st.write("")
-
     visit1, visit2 = st.columns(2)
     with visit1:
         draw_task(name="Chiphell", csv_name="chiphell.csv")
     with visit2:
         draw_task(name="VCB", csv_name="vcb.csv")
 
-    # sign
-
-    st.header("forum-sign", divider="gray")
-    st.write("")
-
     sign1, sign2 = st.columns(2)
     with sign1:
-        draw_task(name="TSDM", csv_name="tsdm.csv")
+        draw_task(name="天使动漫", csv_name="tsdm.csv")
     with sign2:
-        draw_task(name="sayhuahuo", csv_name="sayhuahuo.csv")
+        draw_task(name="花火学园", csv_name="sayhuahuo.csv")
 
-    sign3, sign4 = st.columns(2)
+    sign3, download1 = st.columns(2)
     with sign3:
-        draw_task(name="4KSJ", csv_name="sksj.csv")
-    with sign4:
-        st.empty()
-
-    # download
-
-    st.header("forum-download", divider="gray")
-    st.write("")
-
-    download1, download2 = st.columns(2)
+        draw_task(name="4K世界", csv_name="sksj.csv")
     with download1:
         draw_task(name="天雪", csv_name="skyey.csv")
-    with download2:
-        st.empty()
