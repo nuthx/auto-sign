@@ -21,6 +21,14 @@ if __name__ == '__main__':
     log("自动签到启动 20231207")
     log("———————————————————————————————————————")
 
+    # task.chiphell_visit()
+    # task.vcb_visit()
+    # task.tsdm_work()
+    # task.tsdm_sign()
+    # task.sayhuahuo_sign()
+    # task.sksj_sign()
+    # task.skyey_download()
+
     chiphell = every_second(86450, task.chiphell_visit)
     vcb = every_day("08:32:15", task.vcb_visit)
 

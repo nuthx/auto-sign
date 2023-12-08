@@ -2,3 +2,5 @@ requests
 beautifulsoup4
 schedule
 streamlit
+pandas
+altair
