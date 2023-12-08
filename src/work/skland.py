@@ -1,16 +1,14 @@
 # 参考代码：https://gitee.com/FancyCabbage/skyland-auto-sign
 
-
 import json
 import time
-import random
 import requests
 import hmac
 import hashlib
 
 from urllib import parse
 from ast import literal_eval
-from components.function import *
+from src.function import *
 
 
 header = {
@@ -115,7 +113,7 @@ def get_uid():
     return uid
 
 
-def skland_sign():
+def sign():
     config = configparser.ConfigParser()
     config.read("config.ini")
     token = literal_eval(config.get("skland", "token"))
@@ -123,7 +121,7 @@ def skland_sign():
     # 多账号支持
     for i in token:
         index = token.index(i)
-        log(f"明日方舟_{index + 1}(1/3) - 签到开始")
+        log(f"明日方舟_{index + 1}(1/2) - 签到开始")
 
         # 开始签到
         global sign_token
@@ -137,18 +135,7 @@ def skland_sign():
         if result["message"] == "OK":
             award_name = result["data"]["awards"][0]["resource"]["name"]
             award_count = result["data"]["awards"][0]["count"]
-            log(f"明日方舟_{index + 1}(2/3) - 获得了{award_name} x{award_count}")
+            log(f"明日方舟_{index + 1}(2/2) - 获得了{award_name} x{award_count}")
         else:
-            log(f"明日方舟_{index + 1}(2/3) - {result['message']}")
-
-
-def skland_sign_timer():
-    while True:
-        # 间隔24小时以上
-        random_time = random.randint(86400, 87000)
-
-        # 开始签到
-        skland_sign()
-        log(f"明日方舟_X(3/3) - 全部完成，下次将于{next_time(random_time)}开始签到")
-        log("———————————————————————————————————————————————")
-        time.sleep(random_time)
+            log(f"明日方舟_{index + 1}(2/2) - {result['message']}")
+        log("———————————————————————————————————————")

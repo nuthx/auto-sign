@@ -1,21 +1,19 @@
+import re
 import time
-import random
 import requests
 from bs4 import BeautifulSoup
-from components.function import *
+from src.function import *
 
 
-home_url = "https://www.skyey2.com/"
-subtitle_url = "https://www.skyey2.com/forum.php?mod=forumdisplay&fid=75"
-coin_url = "https://www.skyey2.com/home.php?mod=spacecp&ac=credit&showcredit=1"
+def do(forum):
+    name = forum["name"]
+    name_cn = forum["name_cn"]
 
-
-def skyey_download():
     headers = {
         "content-type": "application/x-www-form-urlencoded",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
-        "cookie": get_cookies("skyey"),
-        "referer": subtitle_url
+        "cookie": get_cookies(name.lower()),
+        "referer": forum["subtitle_url"]
     }
 
     headers_zip = {
@@ -30,21 +28,22 @@ def skyey_download():
         "Sec-Fetch-Site": "same-origin",
         "Sec-Fetch-User": "?1",
         "Upgrade-Insecure-Requests": "1",
-        "cookie": get_cookies("skyey"),
-        "Referer": subtitle_url
+        "cookie": get_cookies(name.lower()),
+        "Referer": forum["subtitle_url"]
     }
 
     # 打开字幕区
-    log("天雪(1/4) - 字幕下载开始")
-    response = requests.get(subtitle_url, headers=headers)
+    log(f"{name_cn}(1/4) - 开始下载字幕")
+    response = requests.get(forum["subtitle_url"], headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # 获取字幕区帖子列表
-    result_posts = soup.select("tbody[id^='normalthread_'] .new a:nth-child(3)")
+    log(f"{name_cn}(2/4) - 获取帖子列表")
+    result_posts = soup.select("tbody[id^='normalthread_'] .s")
     posts = []
     for post in result_posts:
         href = post.get("href")
-        full_url = home_url + href
+        full_url = forum["home_url"] + href
         posts.append(full_url)
 
     # 获取前三个帖子的字幕文件并模拟下载
@@ -53,28 +52,24 @@ def skyey_download():
         response = requests.get(post, headers=headers)
         soup = BeautifulSoup(response.text, 'html.parser')
         download_link = soup.select_one("#filelistn + div a").get("href")
-        download_link_full = home_url + download_link
+        download_link_full = forum["home_url"] + download_link
 
         # 模拟下载
         requests.get(download_link_full, headers=headers_zip)
-        log(f"天雪(2/4) - 模拟下载第{i}个字幕")
+        log(f"{name_cn}(3/4) - 下载第{i}个字幕")
         time.sleep(2)
         i += 1
 
-    # 获取当前积分数
-    response = requests.post(coin_url, headers=headers)
+    # 获取论坛积分
+    response = requests.get(forum["coin_url"], headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
-    credit = soup.select_one(".creditl .cl").text[:10].replace("金币:", "").strip()
-    log(f"天雪(3/4) - 当前拥有{credit}金币")
+    coin_1 = soup.select_one(".creditl .cl").text.split(":")
+    name_1 = coin_1[0].strip()
+    value_1 = int(re.sub(r'\D', '', coin_1[1]))
 
+    # 写入csv
+    write_csv(name, name_1, value_1, 0, 0)
 
-def skyey_download_timer():
-    while True:
-        # 间隔24小时以上
-        random_time = random.randint(86400, 87000)
-
-        # 开始签到
-        skyey_download()
-        log(f"天雪(4/4) - 下次将于{next_time(random_time)}再次下载")
-        log("———————————————————————————————————————————————")
-        time.sleep(random_time)
+    # 输出日志
+    log(f"{name_cn}(4/4) - {name_1}: {value_1}")
+    log("———————————————————————————————————————")
