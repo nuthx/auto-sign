@@ -115,11 +115,17 @@ def get_uid():
 
 def sign():
     config = configparser.ConfigParser()
-    config.read("config.ini")
+    config.read(os.path.join("config", "config.ini"))
     token = literal_eval(config.get("skland", "token"))
 
     # 多账号支持
     for i in token:
+        # 是否存在账号
+        if i == "":
+            log(f"缺少明日方舟配置，跳过")
+            log("———————————————————————————————————————")
+            break
+
         index = token.index(i)
         log(f"明日方舟_{index + 1}(1/2) - 签到开始")
 

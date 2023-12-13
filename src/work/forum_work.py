@@ -7,11 +7,16 @@ def do(forum):
     name = forum["name"]
     name_cn = forum["name_cn"]
 
+    cookies = get_cookies(name.lower())
+
+    if cookies == 404:
+        return
+
     # 必须要这个content-type, 否则没法接收
     headers = {
         "content-type": "application/x-www-form-urlencoded",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
-        "cookie": get_cookies(name.lower()),
+        "cookie": cookies,
         "referer": forum["sign_url"]
     }
 
@@ -22,6 +27,7 @@ def do(forum):
     # 8次打工
     for i in range(8):
         response = requests.post(forum["work_url"], data="act=clickad", headers=headers)
+        log(f"{name_cn}(2/3) - 打工第{i+1}次")
         if "必须与上一次间隔" in response.text:
             break
         if i == 7:

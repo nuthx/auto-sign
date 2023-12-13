@@ -18,16 +18,8 @@ def every_second(j_time, j_name):
 
 if __name__ == '__main__':
     log("———————————————————————————————————————")
-    log("自动签到启动 20231207")
+    log("自动签到启动 20231213")
     log("———————————————————————————————————————")
-
-    # task.chiphell_visit()
-    # task.vcb_visit()
-    # task.chiphell_visit()
-    # task.tsdm_sign()
-    # task.sayhuahuo_sign()
-    # task.sksj_sign()
-    # task.skyey_download()
 
     chiphell = every_second(86450, task.chiphell_visit)
     vcb = every_day("08:02:15", task.vcb_visit)
@@ -43,9 +35,15 @@ if __name__ == '__main__':
 
     skland = every_day("08:57:08", task.skland_sign)
 
-    # 立即运行一次second任务
+    # 启动时执行一次所有任务
     task.chiphell_visit()
+    task.vcb_visit()
     task.tsdm_work()
+    task.tsdm_sign()
+    task.sayhuahuo_sign()
+    task.sksj_sign()
+    task.skyey_download()
+    task.skland_sign()
 
     # 每日任务
     while True:
