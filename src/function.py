@@ -9,8 +9,8 @@ from datetime import datetime
 def random_time(time):
     hour, minute = time.split(":")
 
-    minute = random.randint(int(minute), int(minute) + 8)
-    second = random.randint(10, 59)
+    minute = "{:02d}".format(random.randint(int(minute), int(minute) + 8))
+    second = "{:02d}".format(random.randint(1, 59))
 
     return f"{hour}:{str(minute)}:{str(second)}"
 
