@@ -18,34 +18,32 @@ def every_second(j_time, j_name):
 
 if __name__ == '__main__':
     log("———————————————————————————————————————")
-    log("自动签到启动 20231207")
+    log("自动签到启动 20231213")
     log("———————————————————————————————————————")
 
-    # task.chiphell_visit()
-    # task.vcb_visit()
-    # task.chiphell_visit()
-    # task.tsdm_sign()
-    # task.sayhuahuo_sign()
-    # task.sksj_sign()
-    # task.skyey_download()
+    chiphell = every_second(random.randint(86401, 86500), task.chiphell_visit)
+    vcb = every_day(random_time("08:00"), task.vcb_visit)
 
-    chiphell = every_second(86450, task.chiphell_visit)
-    vcb = every_day("08:02:15", task.vcb_visit)
+    tsdm_1 = every_second(random.randint(21601, 21700), task.tsdm_work)
 
-    tsdm_1 = every_second(21650, task.tsdm_work)
+    tsdm_2 = every_day(random_time("08:10"), task.tsdm_sign)
+    sayhuahuo = every_day(random_time("08:20"), task.sayhuahuo_sign)
 
-    tsdm_2 = every_day("08:14:19", task.tsdm_sign)
-    sayhuahuo = every_day("08:26:43", task.sayhuahuo_sign)
+    sksj = every_day(random_time("08:30"), task.sksj_sign)
 
-    sksj = every_day("08:37:21", task.sksj_sign)
+    skyey = every_day(random_time("08:40"), task.skyey_download)
 
-    skyey = every_day("08:45:37", task.skyey_download)
+    skland = every_day(random_time("08:50"), task.skland_sign)
 
-    skland = every_day("08:57:08", task.skland_sign)
-
-    # 立即运行一次second任务
+    # 启动时执行一次所有任务
     task.chiphell_visit()
+    task.vcb_visit()
     task.tsdm_work()
+    task.tsdm_sign()
+    task.sayhuahuo_sign()
+    task.sksj_sign()
+    task.skyey_download()
+    task.skland_sign()
 
     # 每日任务
     while True:

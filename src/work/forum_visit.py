@@ -8,10 +8,15 @@ from src.function import *
 def do(forum):
     name = forum["name"]
 
+    cookies = get_cookies(name.lower())
+
+    if cookies == 404:
+        return
+
     headers = {
         "content-type": "application/x-www-form-urlencoded",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
-        "cookie": get_cookies(name.lower()),
+        "cookie": cookies,
         "referer": forum["home_url"]
     }
 

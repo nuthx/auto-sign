@@ -9,10 +9,15 @@ def do(forum):
     name = forum["name"]
     name_cn = forum["name_cn"]
 
+    cookies = get_cookies(name.lower())
+
+    if cookies == 404:
+        return
+
     headers = {
         "content-type": "application/x-www-form-urlencoded",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
-        "cookie": get_cookies(name.lower()),
+        "cookie": cookies,
         "referer": forum["subtitle_url"]
     }
 
@@ -28,7 +33,7 @@ def do(forum):
         "Sec-Fetch-Site": "same-origin",
         "Sec-Fetch-User": "?1",
         "Upgrade-Insecure-Requests": "1",
-        "cookie": get_cookies(name.lower()),
+        "cookie": cookies,
         "Referer": forum["subtitle_url"]
     }
 

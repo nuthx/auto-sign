@@ -34,15 +34,25 @@ def draw_metric(data, num):
             st.metric("总计", data[-1][num])
 
 
-
 def draw_task(name, csv_name):
     st.subheader(name)
 
-    # 转换csv_path
+    # 获取csv_path
     current_path = os.path.dirname(os.path.abspath(__file__))
     csv_path = os.path.join(current_path, "data", csv_name)
 
-    # pd读取csv，并转换时间格式
+    # 如果不存在文件，则跳过读取与绘制
+    if not os.path.exists(csv_path):
+        tab1, tab2 = st.tabs(["积分", "原始数据"])
+        with tab1:
+            with st.container(border=True):
+                st.text("暂无数据")
+        with tab2:
+            with st.container(border=True):
+                st.text("暂无数据")
+        return
+
+    # pd转换csv中的时间格式
     csv_file = pd.read_csv(csv_path).tail(7)
     csv_file["时间"] = pd.to_datetime(csv_file["时间"]).dt.strftime("%m-%d")
 
@@ -50,7 +60,7 @@ def draw_task(name, csv_name):
     with open(csv_path, 'r', newline='') as file:
         data = list(csv.reader(file))
 
-    # 导航条
+    # 绘制导航条、环比数据及图表
     if len(data[0]) == 2:
         tab1, tab2 = st.tabs([data[0][1], "原始数据"])
         with tab1:

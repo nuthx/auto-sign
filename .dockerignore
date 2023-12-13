@@ -2,12 +2,26 @@
 config
 data
 log
+other
+
+# Docker
+.dockerignore
+Dockerfile
+
+# Github
+.git
+.gitignore
+LICENSE
+README.md
+
+# PyCharm
+.idea
 
 # macOS
-.DS_Store
+*.DS_Store
 
 # Byte-compiled / optimized / DLL files
-__pycache__/
+*__pycache__
 *.py[cod]
 *$py.class
 
