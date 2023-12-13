@@ -1,13 +1,18 @@
 import os
 import csv
+import random
 import logging
 import configparser
 from datetime import datetime
 
 
-def check_folder(folder_name):
-    if not os.path.exists(folder_name):
-        os.mkdir(folder_name)
+def random_time(time):
+    hour, minute = time.split(":")
+
+    minute = random.randint(int(minute), int(minute) + 8)
+    second = random.randint(10, 59)
+
+    return f"{hour}:{str(minute)}:{str(second)}"
 
 
 def log(content):
@@ -22,6 +27,11 @@ def log(content):
     logging.basicConfig(filename=filepath, level=logging.INFO, format="%(message)s")
     logging.info(f"[{time}] {content}")
     print(f"[{time}] {content}")
+
+
+def check_folder(folder_name):
+    if not os.path.exists(folder_name):
+        os.mkdir(folder_name)
 
 
 def init_config(filepath):
