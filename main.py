@@ -18,7 +18,7 @@ def every_second(j_time, j_name):
 
 if __name__ == '__main__':
     log("———————————————————————————————————————")
-    log("自动签到启动 20231213")
+    log("自动签到启动 20231214")
     log("———————————————————————————————————————")
 
     chiphell = every_second(random.randint(86401, 86500), task.chiphell_visit)
