@@ -4,3 +4,4 @@ schedule
 streamlit
 pandas
 altair
+lxml
