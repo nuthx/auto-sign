@@ -25,11 +25,20 @@ def draw_metric(data, num):
     with st.container(border=True):
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            st.metric("本日新增", str(int(data[-1][num]) - int(data[-2][num])))
+            try:
+                st.metric("本日新增", str(int(data[-1][num]) - int(data[-2][num])))
+            except:
+                st.metric("本日新增", "None")
         with col2:
-            st.metric("本周新增", str(int(data[-1][num]) - int(data[-2][num])))  # 暂不可用
+            try:
+                st.metric("本周新增", str(int(data[-1][num]) - int(data[-7][num])))
+            except:
+                st.metric("本周新增", "None")
         with col3:
-            st.metric("每日均增", str(int(data[-1][num]) - int(data[-2][num])))  # 暂不可用
+            try:
+                st.metric("本月新增", str(int(data[-1][num]) - int(data[-30][num])))
+            except:
+                st.metric("本月新增", "None")
         with col4:
             st.metric("总计", data[-1][num])
 
