@@ -29,7 +29,7 @@ if __name__ == '__main__':
     tsdm_2 = every_day(random_time("08:10"), task.tsdm_sign)
     sayhuahuo = every_day(random_time("08:20"), task.sayhuahuo_sign)
 
-    sksj = every_day(random_time("08:30"), task.sksj_sign)
+    # sksj = every_day(random_time("08:30"), task.sksj_sign)
 
     skyey = every_day(random_time("08:40"), task.skyey_download)
 
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     task.tsdm_work()
     task.tsdm_sign()
     task.sayhuahuo_sign()
-    task.sksj_sign()
+    # task.sksj_sign()
     task.skyey_download()
     task.skland_sign()
 
@@ -52,7 +52,7 @@ if __name__ == '__main__':
         tsdm_1.run_pending()
         tsdm_2.run_pending()
         sayhuahuo.run_pending()
-        sksj.run_pending()
+        # sksj.run_pending()
         skyey.run_pending()
         skland.run_pending()
         time.sleep(1)
