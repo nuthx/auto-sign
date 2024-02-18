@@ -73,8 +73,8 @@ def sksj_sign():
         forum_sign_plus.do({
             "name": "sksj",
             "name_cn": "4K世界",
-            "sign_url": "https://www.4ksj.com/qiandao/",
-            "sign_post": "https://www.4ksj.com/qiandao/?mod=sign&operation=qiandao&format=empty&inajax=1&ajaxtarget=",
+            "sign_url": "https://www.4ksj.com/qiandao.php",
+            "sign_post": "https://www.4ksj.com/qiandao.php?sign=",
             "coin_url": "https://www.4ksj.com/home.php?mod=spacecp&ac=credit"
         })
     except Exception as e:

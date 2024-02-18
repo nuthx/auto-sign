@@ -28,11 +28,11 @@ def do(forum):
     formhash = soup.select_one("#scbar_form input:nth-child(2)").get("value")
 
     # 执行签到
-    sign_url_full = forum["sign_post"] + "&formhash=" + formhash
+    sign_url_full = forum["sign_post"] + formhash
     response = requests.post(sign_url_full, headers=headers)
 
     # 获取签到的返回信息
-    if "今日已签" in response.text:
+    if "已经打过卡" in response.text:
         log(f"{name_cn}(2/3) - 今日已签，请勿重复进行")
     else:
         log(f"{name_cn}(2/3) - 签到完成")
