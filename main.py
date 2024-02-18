@@ -41,7 +41,7 @@ if __name__ == '__main__':
     task.tsdm_work()
     task.tsdm_sign()
     task.sayhuahuo_sign()
-    # task.sksj_sign()
+    task.sksj_sign()
     task.skyey_download()
     task.skland_sign()
 
