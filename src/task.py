@@ -1,4 +1,4 @@
-from src.work import forum_visit, forum_work, forum_sign, forum_sign_plus, forum_download, skland
+from src.work import forum_visit, forum_work, forum_sign, forum_sign_plus, forum_download, psnine, skland
 from src.function import *
 
 
@@ -91,6 +91,14 @@ def skyey_download():
             "subtitle_url": "https://www.skyey2.com/forum.php?mod=forumdisplay&fid=16",
             "coin_url": "https://www.skyey2.com/home.php?mod=spacecp&ac=credit&showcredit=1"
         })
+    except Exception as e:
+        log(e)
+        log("———————————————————————————————————————")
+
+
+def psnine_sign():
+    try:
+        psnine.do()
     except Exception as e:
         log(e)
         log("———————————————————————————————————————")

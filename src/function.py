@@ -40,6 +40,10 @@ def init_config(filepath):
     config.add_section("skland")
     config.set("skland", "token", "['']")
 
+    config.add_section("psnine")
+    config.set("psnine", "psnid", "")
+    config.set("psnine", "shell", "")
+
     config.add_section("tsdm")
     config.set("tsdm", "auth_name", "")
     config.set("tsdm", "auth_value", "")

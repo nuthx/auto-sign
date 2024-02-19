@@ -18,7 +18,7 @@ def every_second(j_time, j_name):
 
 if __name__ == '__main__':
     log("———————————————————————————————————————")
-    log("自动签到启动 20231214")
+    log("自动签到启动 20240219")
     log("———————————————————————————————————————")
 
     # 访问
@@ -38,8 +38,11 @@ if __name__ == '__main__':
     # 字幕下载
     skyey = every_day(random_time("08:40"), task.skyey_download)
 
-    # 游戏签到
-    skland = every_day(random_time("08:50"), task.skland_sign)
+    # P9 签到
+    psnine = every_day(random_time("08:50"), task.psnine_sign)
+
+    # 明日方舟签到
+    skland = every_day(random_time("08:54"), task.skland_sign)
 
     # 启动时执行一次所有任务
     task.chiphell_visit()
@@ -49,6 +52,7 @@ if __name__ == '__main__':
     task.sayhuahuo_sign()
     task.sksj_sign()
     task.skyey_download()
+    task.psnine_sign()
     task.skland_sign()
 
     # 每日任务
@@ -60,5 +64,6 @@ if __name__ == '__main__':
         sayhuahuo.run_pending()
         sksj.run_pending()
         skyey.run_pending()
+        psnine.run_pending()
         skland.run_pending()
         time.sleep(1)
