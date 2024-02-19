@@ -1,6 +1,5 @@
 import re
 import requests
-import xml.etree.ElementTree as ET
 from bs4 import BeautifulSoup
 from src.function import *
 
@@ -48,5 +47,5 @@ def do(forum):
     write_csv(name, name_1, value_1, 0, 0)
 
     # 输出日志
-    log(f"{name_cn}(4/4) - {name_1}: {value_1}")
+    log(f"{name_cn}(3/3) - {name_1}: {value_1}")
     log("———————————————————————————————————————")
