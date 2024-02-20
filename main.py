@@ -42,7 +42,7 @@ if __name__ == '__main__':
     psnine = every_day(random_time("08:50"), task.psnine_sign)
 
     # 明日方舟签到
-    skland = every_day(random_time("08:54"), task.skland_sign)
+    skland = every_day(random_time("09:07"), task.skland_sign)
 
     # 启动时执行一次所有任务
     task.chiphell_visit()
