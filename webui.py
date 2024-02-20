@@ -104,8 +104,14 @@ if __name__ == '__main__':
     with sign2:
         draw_task(name="花火学园", csv_name="sayhuahuo.csv")
 
-    sign3, download1 = st.columns(2)
+    sign3, sign4 = st.columns(2)
     with sign3:
         draw_task(name="4K世界", csv_name="sksj.csv")
+    with sign4:
+        draw_task(name="PSNINE", csv_name="psnine.csv")
+
+    download1, download2 = st.columns(2)
     with download1:
         draw_task(name="天雪", csv_name="skyey.csv")
+    with download2:
+        st.text("")
