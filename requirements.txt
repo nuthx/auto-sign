@@ -1,6 +1,5 @@
 requests
 beautifulsoup4
-schedule
 pandas
 altair
 lxml
