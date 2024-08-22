@@ -21,7 +21,7 @@ def do(forum):
     }
 
     # 获取formhash
-    log(f"{name_cn}(1/3) - 签到开始")
+    print(f"{name_cn}(1/3) - 签到开始")
     response = requests.post(forum["sign_url"], headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     formhash = soup.select_one("#scbar_form input:nth-child(2)").get("value")
@@ -35,7 +35,7 @@ def do(forum):
     soup_xml = BeautifulSoup(response.text, "xml")
     soup_html = BeautifulSoup(soup_xml.root.string, 'html.parser')
     sign_result = soup_html.select_one(".c").text.replace(".", "").strip()
-    log(f"{name_cn}(2/3) - {sign_result}")
+    print(f"{name_cn}(2/3) - {sign_result}")
 
     # 获取论坛积分
     response = requests.get(forum["coin_url"], headers=headers)
@@ -47,12 +47,9 @@ def do(forum):
     name_2 = coin_2[0].strip()
     value_2 = int(coin_2[1].strip())
 
-    # 写入csv
-    write_csv(name, name_1, value_1, name_2, value_2)
-
     # 输出日志
     if value_2 == 0:
-        log(f"{name_cn}(3/3) - {name_1}: {value_1}")
+        print(f"{name_cn}(3/3) - {name_1}: {value_1}")
     else:
-        log(f"{name_cn}(3/3) - {name_1}: {value_1}, {name_2}: {value_2}")
-    log("———————————————————————————————————————")
+        print(f"{name_cn}(3/3) - {name_1}: {value_1}, {name_2}: {value_2}")
+    print("———————————————————————————————————————")

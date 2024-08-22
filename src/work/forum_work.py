@@ -21,24 +21,24 @@ def do(forum):
     }
 
     # 打工之前必须访问过一次网页
-    log(f"{name_cn}(1/3) - 打工开始")
+    print(f"{name_cn}(1/3) - 打工开始")
     requests.get(forum["work_url"], headers=headers)
 
     # 8次打工
     for i in range(8):
         response = requests.post(forum["work_url"], data="act=clickad", headers=headers)
-        log(f"{name_cn}(2/3) - 打工第{i+1}次")
+        print(f"{name_cn}(2/3) - 打工第{i+1}次")
         if "必须与上一次间隔" in response.text:
             break
         if i == 7:
-            log(f"{name_cn}(2/3) - 完成8次打工")
+            print(f"{name_cn}(2/3) - 完成8次打工")
 
     # 获取打工的返回信息
     response = requests.post(forum["work_url"], data="act=getcre", headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     sign_result = soup.select_one("#messagetext").text
     sign_result = sign_result.replace("如果你的浏览器没有自动跳转，请点击此链接", "").strip()
-    log(f"{name_cn}(2/3) - {sign_result}")
+    print(f"{name_cn}(2/3) - {sign_result}")
 
     # 获取论坛积分
     response = requests.get(forum["coin_url"], headers=headers)
@@ -50,12 +50,9 @@ def do(forum):
     name_2 = coin_2[0].strip()
     value_2 = int(coin_2[1].strip())
 
-    # 写入csv
-    write_csv(name, name_1, value_1, name_2, value_2)
-
     # 输出日志
     if value_2 == 0:
-        log(f"{name_cn}(3/3) - {name_1}: {value_1}")
+        print(f"{name_cn}(3/3) - {name_1}: {value_1}")
     else:
-        log(f"{name_cn}(3/3) - {name_1}: {value_1}, {name_2}: {value_2}")
-    log("———————————————————————————————————————")
+        print(f"{name_cn}(3/3) - {name_1}: {value_1}, {name_2}: {value_2}")
+    print("———————————————————————————————————————")

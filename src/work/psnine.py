@@ -25,27 +25,24 @@ def do():
 
     # 是否存在配置信息，如果不存在则跳过
     if "" in (psnid, shell):
-        log(f"缺少PSNINE配置，跳过")
-        log("———————————————————————————————————————")
+        print(f"缺少PSNINE配置，跳过")
+        print("———————————————————————————————————————")
         return
 
     # 执行签到
-    log(f"PSNINE(1/2) - 签到开始")
+    print(f"PSNINE(1/2) - 签到开始")
     response = requests.get(url, headers=headers)
 
     # 获取签到的返回信息
     if "已经签过" in response.text:
-        log(f"PSNINE(2/2) - 今天已经签过了")
-        log("———————————————————————————————————————")
+        print(f"PSNINE(2/2) - 今天已经签过了")
+        print("———————————————————————————————————————")
 
     # 获取论坛积分
     else:
         soup = BeautifulSoup(response.text, 'html.parser')
         day = soup.select_one("div b:nth-child(5)").text
 
-        # 写入csv
-        write_csv("psnine", "天数", int(day), "", 0)
-
         # 输出日志
-        log(f"PSNINE(2/2) - 已祈祷{day}天")
-        log("———————————————————————————————————————")
+        print(f"PSNINE(2/2) - 已祈祷{day}天")
+        print("———————————————————————————————————————")

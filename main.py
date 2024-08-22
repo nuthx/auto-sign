@@ -2,10 +2,6 @@ from src import task
 
 
 if __name__ == '__main__':
-    log("———————————————————————————————————————")
-    log("自动签到启动 20240219")
-    log("———————————————————————————————————————")
-
     task.chiphell_visit()
     task.vcb_visit()
     task.tsdm_work()

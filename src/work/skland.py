@@ -17,7 +17,7 @@ header = {
     'Accept-Encoding': 'gzip',
     'Connection': 'close'
 }
-header_login = {
+header_printin = {
     'User-Agent': 'Skland/1.0.1 (com.hypergryph.skland; build:100001014; Android 31; ) Okhttp/4.11.0',
     'Accept-Encoding': 'gzip',
     'Connection': 'close'
@@ -62,7 +62,7 @@ def generate_signature(token: str, path, body_or_query):
     s = path + body_or_query + t + header_ca_str
     hex_s = hmac.new(token, s.encode('utf-8'), hashlib.sha256).hexdigest()
     md5 = hashlib.md5(hex_s.encode('utf-8')).hexdigest().encode('utf-8').decode('utf-8')
-    # logging.info(f'算出签名: {md5}')
+    # printging.info(f'算出签名: {md5}')
     return md5, header_ca
 
 
@@ -88,7 +88,7 @@ def get_grant_code(token):
         'appCode': '4ca99fa6b56cc2ba',
         'token': token,
         'type': 0
-    }, headers=header_login)
+    }, headers=header_printin)
     resp = response.json()
     if response.status_code != 200:
         raise Exception(f'获得认证代码失败：{resp}')
@@ -101,7 +101,7 @@ def get_cred(grant):
     resp = requests.post(cred_code_url, json={
         'code': grant,
         'kind': 1
-    }, headers=header_login).json()
+    }, headers=header_printin).json()
     if resp['code'] != 0:
         raise Exception(f'获得cred失败：{resp["message"]}')
     return resp['data']
@@ -122,12 +122,12 @@ def sign():
     for i in token:
         # 是否存在账号
         if i == "":
-            log(f"缺少明日方舟配置，跳过")
-            log("———————————————————————————————————————")
+            print(f"缺少明日方舟配置，跳过")
+            print("———————————————————————————————————————")
             break
 
         index = token.index(i)
-        log(f"明日方舟_{index + 1}(1/2) - 签到开始")
+        print(f"明日方舟_{index + 1}(1/2) - 签到开始")
 
         # 开始签到
         global sign_token
@@ -141,7 +141,7 @@ def sign():
         if result["message"] == "OK":
             award_name = result["data"]["awards"][0]["resource"]["name"]
             award_count = result["data"]["awards"][0]["count"]
-            log(f"明日方舟_{index + 1}(2/2) - 获得了{award_name} x{award_count}")
+            print(f"明日方舟_{index + 1}(2/2) - 获得了{award_name} x{award_count}")
         else:
-            log(f"明日方舟_{index + 1}(2/2) - {result['message']}")
-        log("———————————————————————————————————————")
+            print(f"明日方舟_{index + 1}(2/2) - {result['message']}")
+        print("———————————————————————————————————————")

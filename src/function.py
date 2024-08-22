@@ -1,9 +1,6 @@
 import os
-import csv
 import random
-import logging
 import configparser
-from datetime import datetime
 
 
 def random_time(time):
@@ -13,25 +10,6 @@ def random_time(time):
     second = "{:02d}".format(random.randint(1, 59))
 
     return f"{hour}:{str(minute)}:{str(second)}"
-
-
-def log(content):
-    # 创建文件夹
-    check_folder("log")
-
-    now = datetime.now()
-    time = now.strftime("%Y-%m-%d %H:%M:%S")
-
-    filepath = os.path.join("log", f"{now.year}-{now.month}.log")
-
-    logging.basicConfig(filename=filepath, level=logging.INFO, format="%(message)s")
-    logging.info(f"[{time}] {content}")
-    print(f"[{time}] {content}")
-
-
-def check_folder(folder_name):
-    if not os.path.exists(folder_name):
-        os.mkdir(folder_name)
 
 
 def init_config(filepath):
@@ -86,9 +64,6 @@ def init_config(filepath):
 
 
 def get_cookies(website):
-    # 创建文件夹
-    check_folder("config")
-
     # 创建空文件
     filepath = os.path.join("config", "config.ini")
     if not os.path.exists(filepath):
@@ -105,56 +80,9 @@ def get_cookies(website):
     salt_value = config.get(website, "salt_value")
 
     if "" in (auth_name, auth_value, salt_name, salt_value):
-        log(f"缺少{website}配置，跳过")
-        log("———————————————————————————————————————")
+        print(f"缺少{website}配置，跳过")
+        print("———————————————————————————————————————")
         return 404
     else:
         cookies = f"{auth_name}={auth_value}; {salt_name}={salt_value}"
         return cookies
-
-
-def init_csv(filename):
-    # 创建文件夹
-    check_folder("data")
-
-    # 创建空文件
-    filepath = os.path.join("data", filename + ".csv")
-    if not os.path.exists(filepath):
-        with open(filepath, 'w', newline='') as file:
-            csv.writer(file)
-
-    return filepath
-
-
-def write_csv(name, name_1, value_1, name_2, value_2):
-    # 初始化csv
-    csv_path = init_csv(name.lower())
-
-    # 读取csv
-    with open(csv_path, 'r', newline='') as file:
-        data = list(csv.reader(file))
-
-    # 是否存在表头
-    if not data:
-        if value_2 == 0:
-            data.append(["时间", name_1])
-        else:
-            data.append(["时间", name_1, name_2])
-
-    # 创建数据
-    today = datetime.now().strftime("%Y-%m-%d")
-    if data[-1][0] != today:
-        if value_2 == 0:
-            data.append([today, value_1])
-        else:
-            data.append([today, value_1, value_2])
-
-    # 若已有今日数据，则更新
-    else:
-        data[-1][1] = value_1
-        if value_2 != 0:
-            data[-1][2] = value_2
-
-    # 写入csv
-    with open(csv_path, 'w', newline='') as file:
-        csv.writer(file).writerows(data)

@@ -1,5 +1,4 @@
 import time
-import random
 import requests
 from bs4 import BeautifulSoup
 from src.function import *
@@ -21,10 +20,10 @@ def do(forum):
     }
 
     # 访问首页
-    log(f"{name}(1/3) - 浏览论坛首页")
+    print(f"{name}(1/3) - 浏览论坛首页")
     requests.get(forum["home_url"], headers=headers)
     time.sleep(random.randint(1, 2))
-    log(f"{name}(2/3) - 完成每日访问")
+    print(f"{name}(2/3) - 完成每日访问")
 
     # 获取论坛积分
     response = requests.get(forum["coin_url"], headers=headers)
@@ -36,12 +35,9 @@ def do(forum):
     name_2 = coin_2[0].strip()
     value_2 = int(coin_2[1].strip())
 
-    # 写入csv
-    write_csv(name, name_1, value_1, name_2, value_2)
-
     # 输出日志
     if value_2 == 0:
-        log(f"{name}(3/3) - {name_1}: {value_1}")
+        print(f"{name}(3/3) - {name_1}: {value_1}")
     else:
-        log(f"{name}(3/3) - {name_1}: {value_1}, {name_2}: {value_2}")
-    log("———————————————————————————————————————")
+        print(f"{name}(3/3) - {name_1}: {value_1}, {name_2}: {value_2}")
+    print("———————————————————————————————————————")

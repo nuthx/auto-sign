@@ -1,5 +1,4 @@
 from src.work import forum_visit, forum_work, forum_sign, forum_sign_plus, forum_download, psnine, skland
-from src.function import *
 
 
 def chiphell_visit():
@@ -10,8 +9,8 @@ def chiphell_visit():
             "coin_url": "https://www.chiphell.com/home.php?mod=spacecp&ac=credit&op=base"
         })
     except Exception as e:
-        log(e)
-        log("———————————————————————————————————————")
+        print(e)
+        print("———————————————————————————————————————")
 
 
 def vcb_visit():
@@ -22,8 +21,8 @@ def vcb_visit():
             "coin_url": "https://bbs.acgrip.com/home.php?mod=spacecp&ac=credit&op=base"
         })
     except Exception as e:
-        log(e)
-        log("———————————————————————————————————————")
+        print(e)
+        print("———————————————————————————————————————")
 
 
 def tsdm_work():
@@ -36,8 +35,8 @@ def tsdm_work():
             "coin_url": "https://www.tsdm39.com/home.php?mod=spacecp&ac=credit&showcredit=1"
         })
     except Exception as e:
-        log(e)
-        log("———————————————————————————————————————")
+        print(e)
+        print("———————————————————————————————————————")
 
 
 def tsdm_sign():
@@ -50,8 +49,8 @@ def tsdm_sign():
             "coin_url": "https://www.tsdm39.com/home.php?mod=spacecp&ac=credit&showcredit=1"
         })
     except Exception as e:
-        log(e)
-        log("———————————————————————————————————————")
+        print(e)
+        print("———————————————————————————————————————")
 
 
 def sayhuahuo_sign():
@@ -64,8 +63,8 @@ def sayhuahuo_sign():
             "coin_url": "https://www.sayhuahuo.net/home.php?mod=spacecp&ac=credit&showcredit=1"
         })
     except Exception as e:
-        log(e)
-        log("———————————————————————————————————————")
+        print(e)
+        print("———————————————————————————————————————")
 
 
 def sksj_sign():
@@ -78,8 +77,8 @@ def sksj_sign():
             "coin_url": "https://www.4ksj.com/home.php?mod=spacecp&ac=credit"
         })
     except Exception as e:
-        log(e)
-        log("———————————————————————————————————————")
+        print(e)
+        print("———————————————————————————————————————")
 
 
 def skyey_download():
@@ -92,21 +91,21 @@ def skyey_download():
             "coin_url": "https://www.skyey2.com/home.php?mod=spacecp&ac=credit&showcredit=1"
         })
     except Exception as e:
-        log(e)
-        log("———————————————————————————————————————")
+        print(e)
+        print("———————————————————————————————————————")
 
 
 def psnine_sign():
     try:
         psnine.do()
     except Exception as e:
-        log(e)
-        log("———————————————————————————————————————")
+        print(e)
+        print("———————————————————————————————————————")
 
 
 def skland_sign():
     try:
         skland.sign()
     except Exception as e:
-        log(e)
-        log("———————————————————————————————————————")
+        print(e)
+        print("———————————————————————————————————————")

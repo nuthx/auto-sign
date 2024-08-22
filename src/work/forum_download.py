@@ -38,12 +38,12 @@ def do(forum):
     }
 
     # 打开字幕区
-    log(f"{name_cn}(1/4) - 开始下载字幕")
+    print(f"{name_cn}(1/4) - 开始下载字幕")
     response = requests.get(forum["subtitle_url"], headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # 获取字幕区帖子列表
-    log(f"{name_cn}(2/4) - 获取帖子列表")
+    print(f"{name_cn}(2/4) - 获取帖子列表")
     result_posts = soup.select("tbody[id^='normalthread_'] .s")
     posts = []
     for post in result_posts:
@@ -61,7 +61,7 @@ def do(forum):
 
         # 模拟下载
         requests.get(download_link_full, headers=headers_zip)
-        log(f"{name_cn}(3/4) - 下载第{i}个字幕")
+        print(f"{name_cn}(3/4) - 下载第{i}个字幕")
         time.sleep(2)
         i += 1
 
@@ -72,9 +72,6 @@ def do(forum):
     name_1 = coin_1[0].strip()
     value_1 = int(re.sub(r'\D', '', coin_1[1]))
 
-    # 写入csv
-    write_csv(name, name_1, value_1, 0, 0)
-
     # 输出日志
-    log(f"{name_cn}(4/4) - {name_1}: {value_1}")
-    log("———————————————————————————————————————")
+    print(f"{name_cn}(4/4) - {name_1}: {value_1}")
+    print("———————————————————————————————————————")
