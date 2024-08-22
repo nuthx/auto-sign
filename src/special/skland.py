@@ -8,7 +8,6 @@ import hashlib
 
 from urllib import parse
 from ast import literal_eval
-from src.function import *
 
 
 header = {
@@ -113,25 +112,21 @@ def get_uid():
     return uid
 
 
-def sign():
-    config = configparser.ConfigParser()
-    config.read(os.path.join("config", "config.ini"))
-    token = literal_eval(config.get("skland", "token"))
+def sign(forum):
+    token_list = forum["token"]
+
+    if not token_list:
+        print("明日方舟(1/1) - 缺少配置文件，跳过")
+        return
 
     # 多账号支持
-    for i in token:
-        # 是否存在账号
-        if i == "":
-            print(f"缺少明日方舟配置，跳过")
-            print("———————————————————————————————————————")
-            break
-
-        index = token.index(i)
-        print(f"明日方舟_{index + 1}(1/2) - 签到开始")
+    for token in literal_eval(token_list):  # 转为数组
+        index = token.index(token)
+        print(f"明日方舟 账号{index + 1}(1/2) - 签到开始")
 
         # 开始签到
         global sign_token
-        cred_resp = get_cred_by_token(i)
+        cred_resp = get_cred_by_token(token)
         sign_token = cred_resp['token']
         header['cred'] = cred_resp['cred']
         body = {'gameId': 1, 'uid': get_uid()}
@@ -141,7 +136,6 @@ def sign():
         if result["message"] == "OK":
             award_name = result["data"]["awards"][0]["resource"]["name"]
             award_count = result["data"]["awards"][0]["count"]
-            print(f"明日方舟_{index + 1}(2/2) - 获得了{award_name} x{award_count}")
+            print(f"明日方舟 账号{index + 1}(2/2) - 获得了{award_name} x{award_count}")
         else:
-            print(f"明日方舟_{index + 1}(2/2) - {result['message']}")
-        print("———————————————————————————————————————")
+            print(f"明日方舟 账号{index + 1}(2/2) - {result['message']}")

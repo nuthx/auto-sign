@@ -1,7 +1,5 @@
-# User ignore
-config
-data
-log
+# Config
+config.ini
 
 # macOS
 .DS_Store

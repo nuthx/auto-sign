@@ -1,24 +1,25 @@
-import re
 import time
 import requests
 from bs4 import BeautifulSoup
-from src.function import *
+
+from src.coin import get_coin
 
 
 def do(forum):
-    name = forum["name"]
-    name_cn = forum["name_cn"]
+    NAME = forum["name"]
+    COOKIE = forum["cookie"]
+    URL = forum["url"]
+    FID = forum["fid"]
 
-    cookies = get_cookies(name.lower())
-
-    if cookies == 404:
+    if not COOKIE:
+        print(f"{NAME}(1/1) - 缺少配置文件，跳过")
         return
 
     headers = {
         "content-type": "application/x-www-form-urlencoded",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
-        "cookie": cookies,
-        "referer": forum["subtitle_url"]
+        "cookie": COOKIE,
+        "referer": URL + "/forum.php?mod=forumdisplay&fid=" + FID
     }
 
     headers_zip = {
@@ -33,22 +34,22 @@ def do(forum):
         "Sec-Fetch-Site": "same-origin",
         "Sec-Fetch-User": "?1",
         "Upgrade-Insecure-Requests": "1",
-        "cookie": cookies,
-        "Referer": forum["subtitle_url"]
+        "cookie": COOKIE,
+        "referer": URL + "/forum.php?mod=forumdisplay&fid=" + FID
     }
 
-    # 打开字幕区
-    print(f"{name_cn}(1/4) - 开始下载字幕")
-    response = requests.get(forum["subtitle_url"], headers=headers)
+    # 打开dif对应字幕区
+    print(f"{NAME}(1/4) - 开始下载字幕")
+    response = requests.get(URL + "/forum.php?mod=forumdisplay&fid=" + FID, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    # 获取字幕区帖子列表
-    print(f"{name_cn}(2/4) - 获取帖子列表")
+    # 获取帖子列表
+    print(f"{NAME}(2/4) - 获取帖子列表")
     result_posts = soup.select("tbody[id^='normalthread_'] .s")
     posts = []
     for post in result_posts:
         href = post.get("href")
-        full_url = forum["home_url"] + href
+        full_url = URL + "/" + href
         posts.append(full_url)
 
     # 获取前三个帖子的字幕文件并模拟下载
@@ -57,21 +58,16 @@ def do(forum):
         response = requests.get(post, headers=headers)
         soup = BeautifulSoup(response.text, 'html.parser')
         download_link = soup.select_one("#filelistn + div a").get("href")
-        download_link_full = forum["home_url"] + download_link
 
         # 模拟下载
-        requests.get(download_link_full, headers=headers_zip)
-        print(f"{name_cn}(3/4) - 下载第{i}个字幕")
+        requests.get(URL + "/" + download_link, headers=headers_zip)
+        print(f"{NAME}(3/4) - 下载第{i}个字幕")
         time.sleep(2)
         i += 1
 
     # 获取论坛积分
-    response = requests.get(forum["coin_url"], headers=headers)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    coin_1 = soup.select_one(".creditl .cl").text.split(":")
-    name_1 = coin_1[0].strip()
-    value_1 = int(re.sub(r'\D', '', coin_1[1]))
-
-    # 输出日志
-    print(f"{name_cn}(4/4) - {name_1}: {value_1}")
-    print("———————————————————————————————————————")
+    coin = get_coin(URL, headers)
+    if coin:
+        print(f"{NAME}(3/3) - {coin[0]}, {coin[1]}")
+    else:
+        print(f"{NAME}(3/3) - 余额获取失败")
