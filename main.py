@@ -54,6 +54,13 @@ if __name__ == '__main__':
     })
     print("——————————")
 
+    # 恩山
+    forum_visit.do({
+        "name": "恩山",
+        "cookie": get_cookie("right"),
+        "url": "https://www.right.com.cn/forum"
+    })
+
     # 天雪
     forum_download.do({
         "name": "天雪",
