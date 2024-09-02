@@ -72,13 +72,13 @@ if __name__ == '__main__':
 
     # PSNINE
     psnine.do({
-        "psnid": get_cookie("psnid", "psnine"),
-        "shell": get_cookie("shell", "psnine")
+        "psnid": get_cookie("psnine", "psnid"),
+        "shell": get_cookie("psnine", "shell")
     })
     print("——————————")
 
     # 明日方舟
     skland.sign({
-        "token": get_cookie("token", "skland")
+        "token": get_cookie("skland", "token")
     })
     print("——————————")

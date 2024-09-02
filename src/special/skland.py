@@ -120,7 +120,7 @@ def sign(forum):
         return
 
     # 多账号支持
-    for token in literal_eval(token_list):  # 转为数组
+    for token in token_list:
         index = token.index(token)
         print(f"明日方舟 账号{index + 1}(1/2) - 签到开始")
 
