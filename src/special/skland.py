@@ -117,6 +117,7 @@ def sign(forum):
 
     if not token_list:
         print("明日方舟(1/1) - 缺少配置文件，跳过")
+        print("——————————")
         return
 
     # 多账号支持
@@ -137,5 +138,7 @@ def sign(forum):
             award_name = result["data"]["awards"][0]["resource"]["name"]
             award_count = result["data"]["awards"][0]["count"]
             print(f"明日方舟 账号{index + 1}(2/2) - 获得了{award_name} x{award_count}")
+            print("——————————")
         else:
             print(f"明日方舟 账号{index + 1}(2/2) - {result['message']}")
+            print("——————————")

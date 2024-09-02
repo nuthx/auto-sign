@@ -13,6 +13,7 @@ def do(forum):
 
     if not COOKIE:
         print(f"{NAME}(1/1) - 缺少配置文件，跳过")
+        print("——————————")
         return
 
     headers = {
@@ -69,5 +70,7 @@ def do(forum):
     coin = get_coin(URL, headers)
     if coin:
         print(f"{NAME}(3/3) - {coin[0]}, {coin[1]}")
+        print("——————————")
     else:
         print(f"{NAME}(3/3) - 余额获取失败")
+        print("——————————")

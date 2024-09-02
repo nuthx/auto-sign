@@ -12,7 +12,6 @@ if __name__ == '__main__':
         "cookie": get_cookie("chiphell"),
         "url": "https://www.chiphell.com"
     })
-    print("——————————")
 
     # VCB
     forum_visit.do({
@@ -20,7 +19,6 @@ if __name__ == '__main__':
         "cookie": get_cookie("vcb"),
         "url": "https://bbs.acgrip.com"
     })
-    print("——————————")
 
     # 天使动漫 - 签到
     forum_sign.do({
@@ -28,7 +26,6 @@ if __name__ == '__main__':
         "cookie": get_cookie("tsdm"),
         "url": "https://www.tsdm39.com"
     })
-    print("——————————")
 
     # 天使动漫 - 打工
     forum_work.do({
@@ -36,7 +33,6 @@ if __name__ == '__main__':
         "cookie": get_cookie("tsdm"),
         "url": "https://www.tsdm39.com"
     })
-    print("——————————")
 
     # 花火学园
     forum_sign.do({
@@ -44,7 +40,6 @@ if __name__ == '__main__':
         "cookie": get_cookie("sayhuahuo"),
         "url": "https://www.sayhuahuo.net"
     })
-    print("——————————")
 
     # 4K世界
     forum_sign_plus.do({
@@ -52,7 +47,6 @@ if __name__ == '__main__':
         "cookie": get_cookie("sksj"),
         "url": "https://www.4ksj.com"
     })
-    print("——————————")
 
     # 恩山
     forum_visit.do({
@@ -68,17 +62,14 @@ if __name__ == '__main__':
         "url": "https://www.skyey2.com",
         "fid": "16"
     })
-    print("——————————")
 
     # PSNINE
     psnine.do({
         "psnid": get_cookie("psnine", "psnid"),
         "shell": get_cookie("psnine", "shell")
     })
-    print("——————————")
 
     # 明日方舟
     skland.sign({
         "token": get_cookie("skland", "token")
     })
-    print("——————————")

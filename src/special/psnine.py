@@ -9,6 +9,7 @@ def do(forum):
 
     if not PSNID or not SHELL:
         print("PSNINE(1/1) - 缺少配置文件，跳过")
+        print("——————————")
         return
 
     headers = {
@@ -24,6 +25,7 @@ def do(forum):
     # 获取签到的返回信息
     if "已经签过" in response.text:
         print(f"PSNINE(2/2) - 今天已经签过了")
+        print("——————————")
 
     # 获取论坛积分
     else:
@@ -32,3 +34,4 @@ def do(forum):
 
         # 输出日志
         print(f"PSNINE(2/2) - 已祈祷{day}天")
+        print("——————————")
