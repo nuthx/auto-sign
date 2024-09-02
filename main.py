@@ -1,5 +1,5 @@
 from src.cookie import get_cookie
-from src.general import forum_visit, forum_sign, forum_sign_plus, forum_work, forum_download
+from src.general import forum_visit, forum_sign, forum_sign_plus, forum_download
 from src.special import psnine, skland
 
 
@@ -19,12 +19,6 @@ if __name__ == '__main__':
     })
 
     forum_sign.do({
-        "name": "天使动漫",
-        "cookie": get_cookie("tsdm"),
-        "url": "https://www.tsdm39.com"
-    })
-
-    forum_work.do({
         "name": "天使动漫",
         "cookie": get_cookie("tsdm"),
         "url": "https://www.tsdm39.com"
