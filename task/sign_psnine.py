@@ -4,6 +4,6 @@ from src.special import psnine
 
 if __name__ == '__main__':
     psnine.do({
-        "psnid": get_cookie("psnid", "psnine", main=False),
-        "shell": get_cookie("shell", "psnine", main=False)
+        "psnid": get_cookie("psnine", "psnid", main=False),
+        "shell": get_cookie("psnine", "shell", main=False)
     })
