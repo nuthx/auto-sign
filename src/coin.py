@@ -21,3 +21,19 @@ def get_coin(url, headers):
 
     except Exception as e:
         return
+
+
+def get_coin_wp(url, headers):
+    response = requests.get(url, headers=headers)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    try:
+        coin = soup.select_one("#wp-admin-bar-mycred-account-default li div").text.split(":")
+        name = coin[0].strip()
+        value = coin[1].strip().split(" ")[0]  # 再分割一次，避免跟随多个内容
+        comb = name + ": " + value
+
+        return comb
+
+    except Exception as e:
+        return

@@ -1,5 +1,5 @@
 from src.cookie import get_cookie
-from src.general import forum_visit, forum_sign, forum_sign_plus, forum_download
+from src.general import forum_visit, forum_sign, forum_sign_plus, forum_download, wordpress_visit
 from src.special import psnine, skland
 
 
@@ -47,6 +47,12 @@ if __name__ == '__main__':
         "cookie": get_cookie("skyey"),
         "url": "https://www.skyey2.com",
         "fid": "16"
+    })
+
+    wordpress_visit.do({
+        "name": "心动日剧",
+        "cookie": get_cookie("doki8"),
+        "url": "http://www.doki8.net"
     })
 
     psnine.do({
