@@ -5,6 +5,6 @@ from src.general import forum_work
 if __name__ == '__main__':
     forum_work.do({
         "name": "天使动漫",
-        "cookie": get_cookie("tsdm"),
+        "cookie": get_cookie("tsdm", main=False),
         "url": "https://www.tsdm39.com"
     })

@@ -5,6 +5,6 @@ from src.general import forum_visit
 if __name__ == '__main__':
     forum_visit.do({
         "name": "恩山",
-        "cookie": get_cookie("right"),
+        "cookie": get_cookie("right", main=False),
         "url": "https://www.right.com.cn/forum"
     })
