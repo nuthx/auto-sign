@@ -7,7 +7,8 @@ import hmac
 import hashlib
 
 from urllib import parse
-from ast import literal_eval
+
+from other.SecuritySm import get_d_id
 
 
 header = {
@@ -16,10 +17,11 @@ header = {
     'Accept-Encoding': 'gzip',
     'Connection': 'close'
 }
-header_printin = {
+header_login = {
     'User-Agent': 'Skland/1.0.1 (com.hypergryph.skland; build:100001014; Android 31; ) Okhttp/4.11.0',
     'Accept-Encoding': 'gzip',
-    'Connection': 'close'
+    'Connection': 'close',
+    'dId': get_d_id()
 }
 
 # 签名请求头一定要这个顺序，否则失败
@@ -38,7 +40,7 @@ binding_url = "https://zonai.skland.com/api/v1/game/player/binding"
 # 使用token获得认证代码
 grant_code_url = "https://as.hypergryph.com/user/oauth2/v2/grant"
 # 使用认证代码获得cred
-cred_code_url = "https://zonai.skland.com/api/v1/user/auth/generate_cred_by_code"
+cred_code_url = "https://zonai.skland.com/web/v1/user/auth/generate_cred_by_code"
 
 
 def generate_signature(token: str, path, body_or_query):
@@ -87,7 +89,7 @@ def get_grant_code(token):
         'appCode': '4ca99fa6b56cc2ba',
         'token': token,
         'type': 0
-    }, headers=header_printin)
+    }, headers=header_login)
     resp = response.json()
     if response.status_code != 200:
         raise Exception(f'获得认证代码失败：{resp}')
@@ -100,7 +102,7 @@ def get_cred(grant):
     resp = requests.post(cred_code_url, json={
         'code': grant,
         'kind': 1
-    }, headers=header_printin).json()
+    }, headers=header_login).json()
     if resp['code'] != 0:
         raise Exception(f'获得cred失败：{resp["message"]}')
     return resp['data']
