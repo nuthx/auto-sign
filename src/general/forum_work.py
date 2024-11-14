@@ -22,31 +22,36 @@ def do(forum):
         "referer": URL + "/plugin.php?id=dsu_paulsign:sign"
     }
 
-    # 打工之前必须访问过一次网页
-    print(f"{NAME}(1/3) - 打工开始")
-    requests.get(URL + "/plugin.php?id=np_cliworkdz:work", headers=headers)
+    try:
+        # 打工之前必须访问过一次网页
+        print(f"{NAME}(1/3) - 打工开始")
+        requests.get(URL + "/plugin.php?id=np_cliworkdz:work", headers=headers)
 
-    # 8次打工
-    for i in range(8):
-        response = requests.post(URL + "/plugin.php?id=np_cliworkdz:work", data="act=clickad", headers=headers)
-        print(f"{NAME}(2/3) - 打工第{i+1}次")
-        if "必须与上一次间隔" in response.text:
-            break
-        if i == 7:
-            print(f"{NAME}(2/3) - 完成8次打工")
+        # 8次打工
+        for i in range(8):
+            response = requests.post(URL + "/plugin.php?id=np_cliworkdz:work", data="act=clickad", headers=headers)
+            print(f"{NAME}(2/3) - 打工第{i+1}次")
+            if "必须与上一次间隔" in response.text:
+                break
+            if i == 7:
+                print(f"{NAME}(2/3) - 完成8次打工")
 
-    # 获取打工的返回信息
-    response = requests.post(URL + "/plugin.php?id=np_cliworkdz:work", data="act=getcre", headers=headers)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    sign_result = soup.select_one("#messagetext").text
-    sign_result = sign_result.replace("如果你的浏览器没有自动跳转，请点击此链接", "").strip()
-    print(f"{NAME}(2/3) - {sign_result}")
+        # 获取打工的返回信息
+        response = requests.post(URL + "/plugin.php?id=np_cliworkdz:work", data="act=getcre", headers=headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        sign_result = soup.select_one("#messagetext").text
+        sign_result = sign_result.replace("如果你的浏览器没有自动跳转，请点击此链接", "").strip()
+        print(f"{NAME}(2/3) - {sign_result}")
 
-    # 获取论坛积分
-    coin = get_coin(URL, headers)
-    if coin:
-        print(f"{NAME}(3/3) - {coin[0]}, {coin[1]}")
-        print("——————————")
-    else:
-        print(f"{NAME}(3/3) - 余额获取失败")
+        # 获取论坛积分
+        coin = get_coin(URL, headers)
+        if coin:
+            print(f"{NAME}(3/3) - {coin[0]}, {coin[1]}")
+            print("——————————")
+        else:
+            print(f"{NAME}(3/3) - 余额获取失败")
+            print("——————————")
+
+    except Exception as e:
+        print(f"{NAME}(3/3) - 打工失败，原因：{e}")
         print("——————————")

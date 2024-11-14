@@ -18,20 +18,25 @@ def do(forum):
         "cookie": f"__Psnine_psnid={PSNID}; __Psnine_shell={SHELL}; __Psnine_qidaodate={int(time.time())}",
     }
 
-    # 执行签到
-    print(f"PSNINE(1/2) - 签到开始")
-    response = requests.get("https://psnine.com/set/qidao/ajax", headers=headers)
+    try:
+        # 执行签到
+        print(f"PSNINE(1/2) - 签到开始")
+        response = requests.get("https://psnine.com/set/qidao/ajax", headers=headers)
 
-    # 获取签到的返回信息
-    if "已经签过" in response.text:
-        print(f"PSNINE(2/2) - 今天已经签过了")
-        print("——————————")
+        # 获取签到的返回信息
+        if "已经签过" in response.text:
+            print(f"PSNINE(2/2) - 今天已经签过了")
+            print("——————————")
 
-    # 获取论坛积分
-    else:
-        soup = BeautifulSoup(response.text, 'html.parser')
-        day = soup.select_one("div b:nth-child(5)").text
+        # 获取论坛积分
+        else:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            day = soup.select_one("div b:nth-child(5)").text
 
-        # 输出日志
-        print(f"PSNINE(2/2) - 已祈祷{day}天")
+            # 输出日志
+            print(f"PSNINE(2/2) - 已祈祷{day}天")
+            print("——————————")
+
+    except Exception as e:
+        print(f"PSNINE(2/2) - 签到失败，原因：{e}")
         print("——————————")

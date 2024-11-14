@@ -39,38 +39,43 @@ def do(forum):
         "referer": URL + "/forum.php?mod=forumdisplay&fid=" + FID
     }
 
-    # 打开dif对应字幕区
-    print(f"{NAME}(1/4) - 开始下载字幕")
-    response = requests.get(URL + "/forum.php?mod=forumdisplay&fid=" + FID, headers=headers)
-    soup = BeautifulSoup(response.text, 'html.parser')
-
-    # 获取帖子列表
-    print(f"{NAME}(2/4) - 获取帖子列表")
-    result_posts = soup.select("tbody[id^='normalthread_'] .s")
-    posts = []
-    for post in result_posts:
-        href = post.get("href")
-        full_url = URL + "/" + href
-        posts.append(full_url)
-
-    # 获取前三个帖子的字幕文件并模拟下载
-    i = 1
-    for post in posts[:3]:
-        response = requests.get(post, headers=headers)
+    try:
+        # 打开dif对应字幕区
+        print(f"{NAME}(1/4) - 开始下载字幕")
+        response = requests.get(URL + "/forum.php?mod=forumdisplay&fid=" + FID, headers=headers)
         soup = BeautifulSoup(response.text, 'html.parser')
-        download_link = soup.select_one("#filelistn + div a").get("href")
 
-        # 模拟下载
-        requests.get(URL + "/" + download_link, headers=headers_zip)
-        print(f"{NAME}(3/4) - 下载第{i}个字幕")
-        time.sleep(2)
-        i += 1
+        # 获取帖子列表
+        print(f"{NAME}(2/4) - 获取帖子列表")
+        result_posts = soup.select("tbody[id^='normalthread_'] .s")
+        posts = []
+        for post in result_posts:
+            href = post.get("href")
+            full_url = URL + "/" + href
+            posts.append(full_url)
 
-    # 获取论坛积分
-    coin = get_coin(URL, headers)
-    if coin:
-        print(f"{NAME}(3/3) - {coin[0]}, {coin[1]}")
-        print("——————————")
-    else:
-        print(f"{NAME}(3/3) - 余额获取失败")
+        # 获取前三个帖子的字幕文件并模拟下载
+        i = 1
+        for post in posts[:3]:
+            response = requests.get(post, headers=headers)
+            soup = BeautifulSoup(response.text, 'html.parser')
+            download_link = soup.select_one("#filelistn + div a").get("href")
+
+            # 模拟下载
+            requests.get(URL + "/" + download_link, headers=headers_zip)
+            print(f"{NAME}(3/4) - 下载第{i}个字幕")
+            time.sleep(2)
+            i += 1
+
+        # 获取论坛积分
+        coin = get_coin(URL, headers)
+        if coin:
+            print(f"{NAME}(3/3) - {coin[0]}, {coin[1]}")
+            print("——————————")
+        else:
+            print(f"{NAME}(3/3) - 余额获取失败")
+            print("——————————")
+
+    except Exception as e:
+        print(f"{NAME}(3/3) - 下载失败，原因：{e}")
         print("——————————")

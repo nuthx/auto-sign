@@ -22,17 +22,22 @@ def do(forum):
         "referer": URL
     }
 
-    # 访问首页
-    print(f"{NAME}(1/3) - 浏览论坛首页")
-    a = requests.get(URL, headers=headers)
-    time.sleep(random.randint(1, 2))
-    print(f"{NAME}(2/3) - 完成每日访问")
+    try:
+        # 访问首页
+        print(f"{NAME}(1/3) - 浏览论坛首页")
+        requests.get(URL, headers=headers)
+        time.sleep(random.randint(1, 2))
+        print(f"{NAME}(2/3) - 完成每日访问")
 
-    # 获取论坛积分
-    coin = get_coin_wp(URL, headers)
-    if coin:
-        print(f"{NAME}(3/3) - {coin}")
-        print("——————————")
-    else:
-        print(f"{NAME}(3/3) - 余额获取失败")
+        # 获取论坛积分
+        coin = get_coin_wp(URL, headers)
+        if coin:
+            print(f"{NAME}(3/3) - {coin}")
+            print("——————————")
+        else:
+            print(f"{NAME}(3/3) - 余额获取失败")
+            print("——————————")
+
+    except Exception as e:
+        print(f"PSNINE(3/3) - 浏览失败，原因：{e}")
         print("——————————")

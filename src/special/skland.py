@@ -124,23 +124,28 @@ def sign(forum):
 
     # 多账号支持
     for token in token_list:
-        index = token.index(token)
-        print(f"明日方舟 账号{index + 1}(1/2) - 签到开始")
+        try:
+            index = token.index(token)
+            print(f"明日方舟 账号{index + 1}(1/2) - 签到开始")
 
-        # 开始签到
-        global sign_token
-        cred_resp = get_cred_by_token(token)
-        sign_token = cred_resp['token']
-        header['cred'] = cred_resp['cred']
-        body = {'gameId': 1, 'uid': get_uid()}
-        result = requests.post(sign_url, headers=get_sign_header(sign_url, 'post', body, header), json=body).json()
+            # 开始签到
+            global sign_token
+            cred_resp = get_cred_by_token(token)
+            sign_token = cred_resp['token']
+            header['cred'] = cred_resp['cred']
+            body = {'gameId': 1, 'uid': get_uid()}
+            result = requests.post(sign_url, headers=get_sign_header(sign_url, 'post', body, header), json=body).json()
 
-        # 获取签到返回内容
-        if result["message"] == "OK":
-            award_name = result["data"]["awards"][0]["resource"]["name"]
-            award_count = result["data"]["awards"][0]["count"]
-            print(f"明日方舟 账号{index + 1}(2/2) - 获得了{award_name} x{award_count}")
-            print("——————————")
-        else:
-            print(f"明日方舟 账号{index + 1}(2/2) - {result['message']}")
+            # 获取签到返回内容
+            if result["message"] == "OK":
+                award_name = result["data"]["awards"][0]["resource"]["name"]
+                award_count = result["data"]["awards"][0]["count"]
+                print(f"明日方舟 账号{index + 1}(2/2) - 获得了{award_name} x{award_count}")
+                print("——————————")
+            else:
+                print(f"明日方舟 账号{index + 1}(2/2) - {result['message']}")
+                print("——————————")
+
+        except Exception as e:
+            print(f"明日方舟 账号{index + 1}(2/2) - 签到失败，原因：{e}")
             print("——————————")

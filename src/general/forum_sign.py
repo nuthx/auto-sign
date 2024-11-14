@@ -22,28 +22,33 @@ def do(forum):
         "referer": URL + "/plugin.php?id=dsu_paulsign:sign"
     }
 
-    # 获取formhash
-    print(f"{NAME}(1/3) - 签到开始")
-    response = requests.post(URL + "/plugin.php?id=dsu_paulsign:sign", headers=headers)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    formhash = soup.select_one("#scbar_form input:nth-child(2)").get("value")
+    try:
+        # 获取formhash
+        print(f"{NAME}(1/3) - 签到开始")
+        response = requests.post(URL + "/plugin.php?id=dsu_paulsign:sign", headers=headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        formhash = soup.select_one("#scbar_form input:nth-child(2)").get("value")
 
-    # 执行签到
-    sign_say = "%E7%AD%BE%E5%88%B0%E7%AD%BE%E5%88%B0%7E"
-    sign_data = "formhash=" + formhash + "&qdxq=kx&qdmode=1&todaysay=" + sign_say + "&fastreply=0"
-    response = requests.post(URL + "/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1&inajax=1", data=sign_data, headers=headers)
+        # 执行签到
+        sign_say = "%E7%AD%BE%E5%88%B0%E7%AD%BE%E5%88%B0%7E"
+        sign_data = "formhash=" + formhash + "&qdxq=kx&qdmode=1&todaysay=" + sign_say + "&fastreply=0"
+        response = requests.post(URL + "/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1&inajax=1", data=sign_data, headers=headers)
 
-    # 获取签到的返回信息
-    soup_xml = BeautifulSoup(response.text, "xml")
-    soup_html = BeautifulSoup(soup_xml.root.string, 'html.parser')
-    sign_result = soup_html.select_one(".c").text.replace(".", "").strip()
-    print(f"{NAME}(2/3) - {sign_result}")
+        # 获取签到的返回信息
+        soup_xml = BeautifulSoup(response.text, "xml")
+        soup_html = BeautifulSoup(soup_xml.root.string, 'html.parser')
+        sign_result = soup_html.select_one(".c").text.replace(".", "").strip()
+        print(f"{NAME}(2/3) - {sign_result}")
 
-    # 获取论坛积分
-    coin = get_coin(URL, headers)
-    if coin:
-        print(f"{NAME}(3/3) - {coin[0]}, {coin[1]}")
-        print("——————————")
-    else:
-        print(f"{NAME}(3/3) - 余额获取失败")
+        # 获取论坛积分
+        coin = get_coin(URL, headers)
+        if coin:
+            print(f"{NAME}(3/3) - {coin[0]}, {coin[1]}")
+            print("——————————")
+        else:
+            print(f"{NAME}(3/3) - 余额获取失败")
+            print("——————————")
+
+    except Exception as e:
+        print(f"{NAME}(3/3) - 签到失败，原因：{e}")
         print("——————————")
