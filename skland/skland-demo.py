@@ -1,20 +1,25 @@
 import hashlib
 import hmac
 import json
-import os.path
-import time
-from getpass import getpass
 import logging
+import os.path
+import threading
+import time
+from datetime import date
+from getpass import getpass
 from urllib import parse
 
 import requests
 
-from datetime import date
+from SecuritySm import get_d_id
 
 token_save_name = 'TOKEN.txt'
 app_code = '4ca99fa6b56cc2ba'
 token_env = os.environ.get('TOKEN')
-sign_token = ''
+# 现在想做什么？
+current_type = os.environ.get('SKYLAND_TYPE')
+
+http_local = threading.local()
 header = {
     'cred': '',
     'User-Agent': 'Skland/1.0.1 (com.hypergryph.skland; build:100001014; Android 31; ) Okhttp/4.11.0',
@@ -24,7 +29,8 @@ header = {
 header_login = {
     'User-Agent': 'Skland/1.0.1 (com.hypergryph.skland; build:100001014; Android 31; ) Okhttp/4.11.0',
     'Accept-Encoding': 'gzip',
-    'Connection': 'close'
+    'Connection': 'close',
+    'dId': get_d_id()
 }
 
 # 签名请求头一定要这个顺序，否则失败
@@ -49,7 +55,7 @@ token_password_url = "https://as.hypergryph.com/user/auth/v1/token_by_phone_pass
 # 使用token获得认证代码
 grant_code_url = "https://as.hypergryph.com/user/oauth2/v2/grant"
 # 使用认证代码获得cred
-cred_code_url = "https://zonai.skland.com/api/v1/user/auth/generate_cred_by_code"
+cred_code_url = "https://zonai.skland.com/web/v1/user/auth/generate_cred_by_code"
 
 
 def config_logger():
@@ -121,13 +127,12 @@ def generate_signature(token: str, path, body_or_query):
     return md5, header_ca
 
 
-def get_sign_header(url: str, method, body, old_header):
-    h = json.loads(json.dumps(old_header))
+def get_sign_header(url: str, method, body, h):
     p = parse.urlparse(url)
     if method.lower() == 'get':
-        h['sign'], header_ca = generate_signature(sign_token, p.path, p.query)
+        h['sign'], header_ca = generate_signature(http_local.token, p.path, p.query)
     else:
-        h['sign'], header_ca = generate_signature(sign_token, p.path, json.dumps(body))
+        h['sign'], header_ca = generate_signature(http_local.token, p.path, json.dumps(body))
     for i in header_ca:
         h[i] = header_ca[i]
     return h
@@ -159,7 +164,7 @@ def parse_user_token(t):
 
 def login_by_password():
     phone = input('请输入手机号码：')
-    password = getpass('请输入密码：')
+    password = getpass('请输入密码(不会显示在屏幕上面)：')
     r = requests.post(token_password_url, json={"phone": phone, "password": password}, headers=header_login).json()
     return get_token(r)
 
@@ -201,7 +206,7 @@ def get_cred(grant):
 
 def get_binding_list():
     v = []
-    resp = requests.get(binding_url, headers=get_sign_header(binding_url, 'get', None, header)).json()
+    resp = requests.get(binding_url, headers=get_sign_header(binding_url, 'get', None, http_local.header)).json()
 
     if resp['code'] != 0:
         print(f"请求角色列表出现问题：{resp['message']}")
@@ -217,15 +222,14 @@ def get_binding_list():
 
 
 def list_awards(game_id, uid):
-    resp = requests.get(sign_url, headers=header, params={'gameId': game_id, 'uid': uid}).json()
+    resp = requests.get(sign_url, headers=http_local.header, params={'gameId': game_id, 'uid': uid}).json()
     print(resp)
 
 
 def do_sign(cred_resp):
-    # 加到全局里去吧，反正没有多线程
-    global sign_token
-    sign_token = cred_resp['token']
-    header['cred'] = cred_resp['cred']
+    http_local.token = cred_resp['token']
+    http_local.header = header.copy()
+    http_local.header['cred'] = cred_resp['cred']
     characters = get_binding_list()
 
     for i in characters:
@@ -234,7 +238,8 @@ def do_sign(cred_resp):
             'uid': i.get('uid')
         }
         # list_awards(1, i.get('uid'))
-        resp = requests.post(sign_url, headers=get_sign_header(sign_url, 'post', body, header), json=body).json()
+        resp = requests.post(sign_url, headers=get_sign_header(sign_url, 'post', body, http_local.header),
+                             json=body).json()
         if resp['code'] != 0:
             print(f'角色{i.get("nickName")}({i.get("channelName")})签到失败了！原因：{resp.get("message")}')
             continue
@@ -250,10 +255,12 @@ def save(token):
     with open(token_save_name, 'w') as f:
         f.write(token)
     print(
-        f'您的鹰角网络通行证已经保存在{token_save_name}, 打开这个可以把它复制到云函数服务器上执行!\n如果需要再次运行，删除创建的这个文件即可')
+        f'您的鹰角网络通行证保存在{token_save_name}, 打开这个可以把它复制到云函数服务器上执行!\n双击添加账号即可再次添加账号')
 
 
 def read(path):
+    if not os.path.exists(token_save_name):
+        return []
     v = []
     with open(path, 'r', encoding='utf-8') as f:
         for i in f.readlines():
@@ -273,21 +280,25 @@ def read_from_env():
     return v
 
 
-def do_init():
+def init_token():
     if token_env:
         print('使用环境变量里面的token')
         # 对于github action,不需要存储token,因为token在环境变量里
         return read_from_env()
+    tokens = []
+    tokens.extend(read(token_save_name))
+    add_account = current_type == 'add_account'
+    if add_account:
+        print('！！！您启用了添加账号模式，将不会签到！！！')
+    if len(tokens) == 0 or add_account:
+        tokens.append(input_for_token())
+    save('\n'.join(tokens))
+    return [] if add_account else tokens
 
-    # 检测文件里是否有token
-    if os.path.exists(token_save_name):
-        v = read(token_save_name)
-        if v:
-            return v
-    # 没有的话
-    token = ''
+
+def input_for_token():
     print("请输入你需要做什么：")
-    print("1.使用用户名密码登录（非常推荐，但可能因为人机验证失败）")
+    print("1.使用用户名密码登录（非常推荐）")
     print("2.使用手机验证码登录（非常推荐，但可能因为人机验证失败）")
     print("3.手动输入鹰角网络通行证账号登录(推荐)")
     mode = input('请输入（1，2，3）：')
@@ -299,12 +310,11 @@ def do_init():
         token = login_by_token()
     else:
         exit(-1)
-    save(token)
-    return [token]
+    return token
 
 
 def start():
-    token = do_init()
+    token = init_token()
     for i in token:
         try:
             do_sign(get_cred_by_token(i))
