@@ -27,7 +27,7 @@ if __name__ == '__main__':
     forum_sign.do({
         "name": "花火学园",
         "cookie": get_cookie("sayhuahuo"),
-        "url": "https://www.sayhuahuo.net"
+        "url": "https://www.sayhanabi.net"
     })
 
     forum_sign_plus.do({
