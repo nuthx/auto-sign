@@ -8,7 +8,7 @@ import hashlib
 
 from urllib import parse
 
-from other.SecuritySm import get_d_id
+from skland.SecuritySm import get_d_id
 
 
 header = {
