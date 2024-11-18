@@ -1,6 +1,6 @@
 from src.cookie import get_cookie
 from src.general import forum_visit, forum_sign, forum_sign_plus, forum_download, wordpress_visit
-from src.special import psnine, skland
+from src.special import psnine, skland, dayuecheng
 
 
 if __name__ == '__main__':
@@ -58,6 +58,10 @@ if __name__ == '__main__':
     psnine.do({
         "psnid": get_cookie("psnine", "psnid"),
         "shell": get_cookie("psnine", "shell")
+    })
+
+    dayuecheng.do({
+        "token": get_cookie("dayuecheng", "token")
     })
 
     skland.sign({
