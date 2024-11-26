@@ -11,12 +11,9 @@
 - 天使动漫（打工、签到）
 - 心动日剧（签到）
 - PSNINE（签到）
+- 静安大悦城（签到）
 - 明日方舟（游戏签到，支持多账号）
 
 ## Usage
 
-首次运行 `python main.py`，程序会在 `config` 下自动生成 `config.ini`，根据对应内容填写
-
-可在 `main.py` 内修改每日签到时间，支持在指定时间至后面 8 分钟内随机运行
-
-运行 `streamlit run webui.py` 可查看签到统计信息
+将 `config.example.json` 修改为 `config.json`，并填写 cookies 或 token。未填写的签到项目会自动跳过
