@@ -15,3 +15,7 @@
 ## Usage
 
 将 `config.example.json` 修改为 `config.json`，并填写 cookies 或 token。未填写的签到项目会自动跳过
+
+## Reference
+
+- [skyland-auto-sign](https://gitee.com/FancyCabbage/skyland-auto-sign)
