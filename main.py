@@ -1,6 +1,6 @@
 from src.cookie import get_cookie
-from src.general import forum_visit, forum_sign, forum_sign_plus, forum_download, wordpress_visit
-from src.special import psnine, skland, dayuecheng
+from src.general import forum_visit, forum_sign, forum_download, wordpress_visit
+from src.special import psnine, skland
 
 
 if __name__ == '__main__':
@@ -30,12 +30,6 @@ if __name__ == '__main__':
         "url": "https://www.sayhanabi.net"
     })
 
-    forum_sign_plus.do({
-        "name": "4K世界",
-        "cookie": get_cookie("sksj"),
-        "url": "https://www.4ksj.com"
-    })
-
     forum_visit.do({
         "name": "恩山",
         "cookie": get_cookie("right"),
@@ -58,10 +52,6 @@ if __name__ == '__main__':
     psnine.do({
         "psnid": get_cookie("psnine", "psnid"),
         "shell": get_cookie("psnine", "shell")
-    })
-
-    dayuecheng.do({
-        "token": get_cookie("dayuecheng", "token")
     })
 
     skland.sign({
