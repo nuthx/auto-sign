@@ -20,12 +20,12 @@ def do(forum):
 
     try:
         # 执行签到
-        print(f"PSNINE(1/2) - 签到开始")
+        print("PSNINE(1/2) - 签到开始")
         response = requests.get("https://psnine.com/set/qidao/ajax", headers=headers)
 
         # 获取签到的返回信息
         if "已经签过" in response.text:
-            print(f"PSNINE(2/2) - 今天已经签过了")
+            print("PSNINE(2/2) - 今天已经签过了")
             print("——————————")
 
         # 获取论坛积分

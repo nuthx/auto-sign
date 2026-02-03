@@ -19,7 +19,7 @@ def get_coin(url, headers):
 
         return comb_1, comb_2
 
-    except Exception as e:
+    except Exception:
         return
 
 
@@ -35,5 +35,5 @@ def get_coin_wp(url, headers):
 
         return comb
 
-    except Exception as e:
+    except Exception:
         return
